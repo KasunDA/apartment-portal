@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+ http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+ http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<!--  enable annotations -->
+	<mvc:annotation-driven />
+	
+	<!-- root package for components, services scanning -->
+	<context:component-scan base-package="com.rentapi" />
+	
+	<!-- read properties and enable to read with value annotation -->
+	<context:property-placeholder location="classpath:application.properties"/>
+	
+	<!--  default resource location -->
+	<mvc:resources location="/resources/**" mapping="/resources/"/>
+	
+	<!-- view resolvers - default: json -->
+	<bean id="jsonView"
+		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+		
+	<!-- render .jsp, .html views -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+	</bean>
+
+</beans>
