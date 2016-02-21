@@ -1,0 +1,37 @@
+<h3 ng-hide="vm.success">Contact us</h3>
+
+<div ng-show="vm.success">
+  <img src="assets/images/thank-you.jpg" class="img-responsive">
+
+
+</div>
+
+<div class="row" ng-hide="vm.success">
+  <div class="col-lg-8 center-block">
+
+    <form ng-submit="vm.contact()">
+
+      <div class="form-group">
+        <label>Your Email:</label> <input type="text" class="form-control"
+                                          value="" placeholder="Email address" />
+      </div>
+
+      <div class="form-group">
+        <label>Subject:</label> <input type="text" class="form-control"
+                                       value="" placeholder="Subject" />
+      </div>
+
+      <div class="form-group">
+        <label>Message:</label>
+        <textarea class="form-control" placeholder="Message"></textarea>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+
+
+    </form>
+
+  </div>
+</div>

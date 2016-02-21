@@ -1,0 +1,18 @@
+<h2>Maintenance Home</h2>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+
+    <tr ng-repeat="issue in vm.issues">
+      <td>{{issue.requestDate}}</td>
+      <td>{{issue.description}}</td>
+      <td>{{issue.status}}</td>
+    </tr>
+
+</table>
