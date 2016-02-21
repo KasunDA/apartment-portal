@@ -14,6 +14,7 @@ target/
 *.war
 *.ear
 *.db
+*.zip
  
 ######################
 # Windows
@@ -45,7 +46,7 @@ Desktop.ini
 ######################
  
 *.pydevproject
-.project
+#.project
 .metadata
 bin/**
 tmp/**
@@ -55,7 +56,7 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-.classpath
+#.classpath
 .settings/
 .loadpath
 /src/main/resources/rebel.xml
@@ -72,3 +73,11 @@ local.properties
 .buildpath
 
 .recommenders/
+
+##############
+# Custom
+##############
+
+RemoteSystemsTempFiles/
+RentAPI/src/main/resources/dev/application.properties
+/Servers/
