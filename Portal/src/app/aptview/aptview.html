@@ -1,0 +1,42 @@
+<div class="t-page">
+  <h2>Apartment Details</h2>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+      <button ng-click="vm.bookmarkApt(vm.apt.AptId)">Add to favorites</button>
+
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <td>Apt Number</td>
+          <td>{{vm.apt.aptNo}}</td>
+        </tr>
+        <tr>
+          <td>Bedrooms</td>
+          <td>{{vm.apt.noOfBedrooms}}</td>
+        </tr>
+        <tr>
+          <td>Bathrooms</td>
+          <td>{{vm.apt.noOfBathrooms}}</td>
+        </tr>
+        <tr>
+          <td>Patios</td>
+          <td>{{vm.apt.patios}}</td>
+        </tr>
+        <tr>
+          <td>Rent</td>
+          <td>{{vm.apt.rent}}</td>
+        </tr>
+        <tr>
+          <td>Sft</td>
+          <td>{{vm.apt.sft}}</td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+
+</div>

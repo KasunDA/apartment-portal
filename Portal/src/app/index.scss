@@ -27,6 +27,39 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   }
 }
 
+
+.t-page {
+  padding: 10px;
+}
+
+.logout-link h2 {
+  color: #c52d2f;
+}
+
+.login-box {
+  background-color: lightyellow;
+  padding: 30px;
+  border: 3px solid rosybrown;
+  border-radius: 5px;
+}
+
+#footer {
+  border-top: 5px solid #c52d2f;
+}
+
+section.container {
+  min-height: 600px;
+  padding: 20px 0;
+  background-color: #ffffff;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+
+
+
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically

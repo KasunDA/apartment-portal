@@ -42,6 +42,32 @@
     this.getIssues = function () {
       return get("resident/issues");
     };
+
+    this.chargeCreditCard = function (data) {
+      return post("payment/chargeCreditCard", data);
+    };
+
+    this.contact = function (data) {
+      return post("guest/contact", data);
+    };
+
+    this.search = function (data) {
+      var queryStr = "";
+      queryStr += "?noOfBedrooms=" + data.noOfBedrooms;
+      queryStr += "&noOfBathrooms=" + data.noOfBathrooms;
+      queryStr += "&patios=" + data.patios;
+      return get("guest/search", queryStr);
+    };
+
+    this.getApartment = function (apartmentId) {
+      var queryStr = "";
+      queryStr += "?aptId=" + apartmentId;
+      return get("guest/getApartment", queryStr);
+    };
+
+    this.bookmarkApt = function (data) {
+      return post("guest/bookmarkApt", data);
+    };
   }
 
 })();

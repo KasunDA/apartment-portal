@@ -3,9 +3,10 @@
 
   angular.module("portal").controller("GuestController", GuestController);
 
-  function GuestController() {
+  GuestController.$inject = ["dataService"];
+
+  function GuestController(dataService) {
     var vm = this;
-
-
   }
-})();
+    })();
+

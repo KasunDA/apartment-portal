@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
 import com.rentapi.model.Issue;
 import com.rentapi.model.Referral;
 
@@ -58,30 +57,5 @@ public class ResidentService {
 
 		return referrals;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-}
+	}
