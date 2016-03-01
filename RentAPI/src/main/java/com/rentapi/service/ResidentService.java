@@ -1,61 +1,45 @@
 package com.rentapi.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import com.rentapi.data.DataRepository;
 import com.rentapi.model.Issue;
 import com.rentapi.model.Referral;
+import com.rentapi.model.ResidentIssue;
 
 @Component
 public class ResidentService {
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
+
+	private DataRepository repository;
 
 	@Autowired
-	public ResidentService(DataSource dataSource) {
-		this.dataSource = dataSource;
-		this.jdbcTemplate = new JdbcTemplate(this.dataSource);
+	public ResidentService(DataRepository repository) {
+		this.repository = repository;
 	}
 
-	public List<Issue> GetIssues(int userId) {
-		ArrayList<Issue> issues = new ArrayList<Issue>();
-
-		String sql = "select * from rentportal.maintanance";
-
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-		for (Map<String, Object> row : rows) {
-			Issue issue = new Issue();
-			issue.setDescription((String) (row.get("Description")));
-			issue.setRequestDate((Date) row.get("Date_of_Request"));
-			issue.setStatus((String) row.get("Status"));
-			issues.add(issue);
-		}
-
-		return issues;
-	}
-	public List<Referral> GetReferrals(int userId) {
-		ArrayList<Referral> referrals = new ArrayList<Referral>();
-
-		String sql = "select * from rentportal.referral";
-
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-		for (Map<String, Object> row : rows) {
-			Referral referral = new Referral();
-			referral.setReferralFirstName((String) (row.get("ReferralFirstName")));
-			referral.setReferralLastName((String) (row.get("ReferralLastName")));
-			referral.setUserId((int) row.get("UserId"));
-			referral.setEmailAddress((String) row.get("EmailAddress"));
-			referrals.add(referral);
-		}
-
-		return referrals;
+	public List<Issue> GetIssues(int residentId) {
+		return repository.GetIssues(residentId);
 	}
 
+	public ResidentIssue GetIssue(int issueId, int residentId) {
+		return repository.GetResidentIssue(issueId, residentId);
 	}
+
+	public Integer CreateIssue(ResidentIssue issue) {
+		return repository.CreateIssue(issue);
+	}
+
+	public List<Referral> GetReferrals(int residentId) {
+		return repository.GetReferrals(residentId);
+	}
+
+	public Integer CreateReferral(Referral referral) {
+		return repository.CreateReferral(referral);
+	}
+	
+	
+
+}

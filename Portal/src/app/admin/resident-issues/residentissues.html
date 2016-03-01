@@ -1,0 +1,24 @@
+<h2>Maintenance Issues</h2>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Resident</th>
+    <th>Staff</th>
+    <th>Date</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+
+  <tr ng-repeat="issue in vm.issues">
+    <td>{{issue.title}}</td>
+    <td>{{issue.description}}</td>
+    <td>{{issue.firstName}} {{issue.lastName}}</td>
+    <td>{{issue.staffFirstName}} {{issue.staffLastName}}</td>
+    <td>{{issue.createDate}}</td>
+    <td>{{issue.statusName}}</td>
+  </tr>
+
+</table>

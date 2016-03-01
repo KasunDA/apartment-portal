@@ -1,0 +1,26 @@
+<h2>Leases</h2>
+
+<div class="table">
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Create Date</th>
+      <th>Resident</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="a in vm.leaselist">
+      <td>{{a.leaseStartDate}}</td>
+      <td>{{a.leaseEndDate}}</td>
+      <td>{{a.leaseCreateDate}}</td>
+      <td>
+        <a ui-sref="admin-resident({residentId: a.residentId})">
+          {{a.residentFirstName}} {{a.residentLastName}}
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

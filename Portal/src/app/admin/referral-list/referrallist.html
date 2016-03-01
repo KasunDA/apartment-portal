@@ -1,0 +1,36 @@
+<h2>Referral List</h2>
+
+<div class="table">
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Resident</th>
+      <th>Guest</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Date</th>
+      <th>Approved By</th>
+      <th>Approval Date</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="a in vm.referrals">
+      <td>
+        <a ui-sref="admin-resident({residentId: a.residentId})">
+          {{a.residentName}}
+        </a>
+      </td>
+      <td>{{a.guestName}}</td>
+      <td>{{a.phoneNumber}}</td>
+      <td>{{a.Address.address1}} {{a.Address.address2}} {{a.Address.city}} {{a.Address.state}} {{a.Address.zip}}</td>
+      <td>{{a.createDate}}</td>
+      <td>{{a.approvedByName}}</td>
+      <td>{{a.approvedDate}}</td>
+      <td><a class="btn btn-primary"
+             ng-show="a.approvedBy === 0"
+             ng-click="vm.approve(a.referralId)">Approve</a></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

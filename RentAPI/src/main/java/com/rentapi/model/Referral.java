@@ -1,34 +1,72 @@
+
 package com.rentapi.model;
 
+import java.util.Date;
 
-public class Referral {
-	private String ReferralFirstName;
-	private String ReferralLastName;
-	private String EmailAddress;
-	private int UserId;
-	public String getReferralFirstName() {
-		return ReferralFirstName;
-	}
-	public void setReferralFirstName(String referralFirstName) {
-		ReferralFirstName = referralFirstName;
-	}
-	public String getReferralLastName() {
-		return ReferralLastName;
-	}
-	public void setReferralLastName(String referralLastName) {
-		ReferralLastName = referralLastName;
-	}
+public class Referral extends ReferralBase {
+	private String guestName; 
+	private String emailAddress;
+	private Integer userId;
+	private String residentName;
+	private Integer residentId;
+	private Date approvedDate;
+	private Integer approvedBy;
+	private String approvedByName;
+	
+	private Address address;
+	
 	public String getEmailAddress() {
-		return EmailAddress;
+		return emailAddress;
 	}
 	public void setEmailAddress(String emailAddress) {
-		EmailAddress = emailAddress;
+		this.emailAddress = emailAddress;
 	}
-	public int getUserId() {
-		return UserId;
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setUserId(int userId) {
-		UserId = userId;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
-
+	public String getGuestName() {
+		return guestName;
+	}
+	public void setGuestName(String guestName) {
+		this.guestName = guestName;
+	}
+	public Integer getResidentId() {
+		return residentId;
+	}
+	public void setResidentId(Integer residentId) {
+		this.residentId = residentId;
+	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public Date getApprovedDate() {
+		return approvedDate;
+	}
+	public void setApprovedDate(Date approvedDate) {
+		this.approvedDate = approvedDate;
+	}
+	public Integer getApprovedBy() {
+		return approvedBy;
+	}
+	public void setApprovedBy(Integer approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+	public String getApprovedByName() {
+		return approvedByName;
+	}
+	public void setApprovedByName(String approvedByName) {
+		this.approvedByName = approvedByName;
+	}
+	public String getResidentName() {
+		return residentName;
+	}
+	public void setResidentName(String residentName) {
+		this.residentName = residentName;
+	}
 }

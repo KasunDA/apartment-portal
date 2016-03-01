@@ -75,7 +75,8 @@ public class GuestController {
 
 		return new ModelAndView(jsonView, "data", result);
 	}
-
+	
+	
 	@RequestMapping(value = "/schedule", method = RequestMethod.POST, consumes = "application/json")
 	public ModelAndView schedule() {
 

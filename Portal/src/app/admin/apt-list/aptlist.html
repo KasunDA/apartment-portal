@@ -1,0 +1,38 @@
+<h2>Apartment List</h2>
+
+<div class="table">
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Apt #</th>
+      <th>Building #</th>
+      <th>Bedrooms</th>
+      <th>Bathrooms</th>
+      <th>Type</th>
+      <th>Active</th>
+      <th>Edit</th>
+      <th>Remove</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="a in vm.aptlist">
+      <td>{{a.aptNo}}</td>
+      <td>{{a.buildingNo}}</td>
+      <td>{{a.bedrooms}}</td>
+      <td>{{a.bathrooms}}</td>
+      <td>{{a.propertyTypeName}}</td>
+      <td>{{a.isActive}}</td>
+      <td>
+        <a ui-sref="admin-apt-edit({apartmentId: a.apartmentId})">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a>
+      </td>
+      <td>
+        <a ng-click="vm.remove(a.apartmentId)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
