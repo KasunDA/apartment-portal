@@ -3,9 +3,9 @@
 
   angular.module("portal").controller("AptSearchController", AptSearchController);
 
-  AptSearchController.$inject = ["dataService"];
+  AptSearchController.$inject = ["dataService", "errorService"];
 
-  function AptSearchController(dataService) {
+  function AptSearchController(dataService, errorService) {
     var vm = this;
 
     vm.searchsuccess = false;
@@ -13,17 +13,18 @@
     function search() {
 
       var data = {
-        noOfBedrooms: vm.noOfBedrooms || "",
-        noOfBathrooms: vm.noOfBathrooms || "",
-        patios: vm.patios || "",
+        bedrooms: vm.noOfBedrooms || "",
+        bathrooms: vm.noOfBathrooms || "",
+        garages: vm.garages || "",
       };
 
       dataService.search(data)
         .then(function (response) {
           vm.searchsuccess = true;
+          vm.results = response;
         })
         .catch(function () {
-          vm.searchsuccess = false;
+          errorService.showModalAlert();
         });
     }
 

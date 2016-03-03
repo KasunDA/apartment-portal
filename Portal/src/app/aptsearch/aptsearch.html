@@ -36,10 +36,10 @@
 
         <div class="form-group">
           <label class="control-label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            Patios
+            Garages
           </label>
           <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-            <select ng-model="vm.patios" name="patios" class="form-control">
+            <select ng-model="vm.garages" name="garages" class="form-control">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -57,7 +57,39 @@
   </div>
 
   <div ng-show="vm.searchsuccess">
-
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Apt #</th>
+          <th>Building</th>
+          <th>Bed rooms</th>
+          <th>Bath rooms</th>
+          <th>Garages</th>
+          <th>Sqft</th>
+          <th>Rent</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="r in vm.results">
+          <td>{{r.aptNo}}</td>
+          <td>{{r.buildingNo}}</td>
+          <td>{{r.noOfBedrooms}}</td>
+          <td>{{r.noOfBathrooms}}</td>
+          <td>{{r.garages}}</td>
+          <td>{{r.sft}}</td>
+          <td>
+            <span ng-show="r.rent === 0">Call for price</span>
+            <span ng-show="r.rent !== 0">{{r.rent}}</span>
+          </td>
+          <td>
+            <a ui-sref="apt-view({aptId: r.aptId})">View</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>

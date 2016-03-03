@@ -5,6 +5,8 @@ public class SearchQuery {
 	private Integer noOfBedrooms;
 	private Integer noOfBathrooms;
 	private Integer patios;
+	private Integer garages;
+	private Integer sqft;
 	
 	public Integer getNoOfBedrooms() {
 		return noOfBedrooms;
@@ -24,6 +26,16 @@ public class SearchQuery {
 	public void setPatios(Integer patios) {
 		this.patios = patios;
 	}
-	
-
+	public Integer getGarages() {
+		return garages;
+	}
+	public void setGarages(Integer garages) {
+		this.garages = garages;
+	}
+	public Integer getSqft() {
+		return sqft;
+	}
+	public void setSqft(Integer sqft) {
+		this.sqft = sqft;
+	}
 }

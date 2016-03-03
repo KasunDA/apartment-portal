@@ -37,14 +37,34 @@
         cardNumber: vm.cardNumber,
         expirationDate: vm.expiryDate,
         securityCode: vm.securityCode,
-        billAddress1: vm.address1,
-        billAddress2: vm.address2,
-        billCity: vm.city,
-        billState: vm.state,
-        billZipCode: vm.zipCode,
-        amount: vm.amount
+        amount: vm.amount,
+        billingAddress: {
+          billAddress1: vm.address1,
+          billAddress2: vm.address2,
+          billCity: vm.city,
+          billState: vm.state,
+          billZipCode: vm.zipCode
+        }
       };
-      dataService.chargeCreditCard(data);
+
+      dataService.chargeCreditCard(data)
+        .then(function (data) {
+          vm.showPaymentSummary = true;
+          vm.hasError = data.hasError;
+
+          if (data.hasError) {
+            var msg = "";
+            for (var i = 0; i < data.messages.length; i++) {
+              msg += data.messages[i] + "\r\n";
+            }
+            vm.errorMsg = msg;
+          }
+          else {
+            vm.errorMsg = "Payment successful";
+            vm.txnCode = data.transactionNumber;
+          }
+
+        });
     }
 
     vm.charge = function () {

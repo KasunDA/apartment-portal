@@ -9,16 +9,23 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import com.rentapi.controller.ResidentController;
 import com.rentapi.model.Address;
 import com.rentapi.model.ApartmentInfo;
+import com.rentapi.model.Appointment;
 import com.rentapi.model.Apt;
 import com.rentapi.model.ContactInfo;
+import com.rentapi.model.CreditCardPaymentInfo;
 import com.rentapi.model.Issue;
 import com.rentapi.model.Lease;
 import com.rentapi.model.Referral;
@@ -28,6 +35,8 @@ import com.rentapi.model.SearchResultItem;
 
 @Component
 public class DataRepository {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataRepository.class);
 
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
@@ -46,15 +55,55 @@ public class DataRepository {
 	}
 
 	public List<SearchResultItem> search(SearchQuery query) {
-		List<SearchResultItem> list = new ArrayList<SearchResultItem>();
+		String sql = "call `searchApartments`(?,?,?)";
 
-		// TODO: Fill the list from database
-
-		return list;
+		List<SearchResultItem> row = jdbcTemplate.query(sql,
+				new Object[] { query.getNoOfBedrooms(), query.getNoOfBathrooms(), query.getGarages() },
+				new RowMapper<SearchResultItem>() {
+					@Override
+					public SearchResultItem mapRow(ResultSet rs, int rowNum) throws SQLException {
+						SearchResultItem item = new SearchResultItem();
+						item.setNoOfBathrooms(rs.getInt("NoOfBathrooms"));
+						item.setNoOfBedrooms(rs.getInt("NoOfBedrooms"));
+						item.setSft(rs.getInt("Sqft"));
+						item.setGarages(rs.getInt("Garage"));
+						item.setAptNo(rs.getString("AptNo"));
+						item.setBuildingNo(rs.getString("BuildingNo"));
+						item.setRent(rs.getFloat("Rent"));
+						item.setAptId(rs.getInt("PropertyID"));
+						return item;
+					}
+				});
+		return row;
 	}
 
-	public ApartmentInfo getApartment(int apartmentId) {
-		return null;
+	public ApartmentInfo getApartment(int apartmentId, int residentId) {
+		String sql = "call getProperty(?,?);";
+
+		ApartmentInfo row = jdbcTemplate.queryForObject(sql, new Object[] { apartmentId, residentId },
+				new RowMapper<ApartmentInfo>() {
+
+					@Override
+					public ApartmentInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+						ApartmentInfo apartment = new ApartmentInfo();
+
+						apartment.setAptId(rs.getInt("PropertyID"));
+						apartment.setAptNo(rs.getString("AptNo"));
+						apartment.setBuildingNo(rs.getString("BuildingNo"));
+						apartment.setNoOfBedrooms(rs.getInt("NoOfBedrooms"));
+						apartment.setNoOfBathrooms(rs.getInt("NoOfBathrooms"));
+						apartment.setGarage(rs.getInt("Garage"));
+						apartment.setSqft(rs.getInt("Sqft"));
+						apartment.setPropertyTypeName(rs.getString("PropertyTypeName"));
+						apartment.setBookmarked(rs.getBoolean("Bookmark"));
+						apartment.setRent(rs.getFloat("Rent"));
+
+						return apartment;
+					}
+
+				});
+
+		return row;
 	}
 
 	public Issue getIssue(int issueId) {
@@ -70,8 +119,8 @@ public class DataRepository {
 		for (Map<String, Object> row : rows) {
 			Issue issue = new Issue();
 			issue.setDescription((String) (row.get("Description")));
-			//issue.setRequestDate((Date) row.get("Date_of_Request"));
-			//issue.setStatus((String) row.get("Status"));
+			// issue.setResidentID((Integer) row.get("ResidentID"));
+			// issue.setTitle((String) row.get("Title"));
 			issues.add(issue);
 		}
 
@@ -325,5 +374,65 @@ public class DataRepository {
 		String sql = "call `approveAdminReferral`(?,?)";
 		jdbcTemplate.update(sql, new Object[] { staffId, referralId });
 		return true;
+	}
+
+	public Boolean bookmarkApartment(Integer aptId, int residentId, Boolean bookmarked) {
+		String sql = "call `bookmarkApt`(?,?,?)";
+		jdbcTemplate.update(sql, new Object[] { aptId, residentId, bookmarked });
+		return true;
+	}
+
+	public Integer SavePaymentInfo(CreditCardPaymentInfo info) {
+
+		Address address = info.getBillingAddress();
+		Integer addressId = info.getBillingAddress().getAddressID();
+		if (addressId == null || addressId <= 0) {
+			String sql = "call `saveAddress`(?,?,?,?,?,?,?)";
+			addressId = (Integer) jdbcTemplate.queryForObject(sql, new Object[] { null, address.getAddress1(),
+					address.getAddress2(), address.getCity(), address.getState(), address.getZip(), "USA" },
+					Integer.class);
+		}
+
+		String sql = "call `savePaymentInfo`(?,?,?,?,?,?,?,?,?)";
+		Integer paymentInfoID = (Integer) jdbcTemplate
+				.queryForObject(
+						sql, new Object[] { info.getName(), info.getPhone(), info.getCardNumber(),
+								info.getExpirationDate(), info.getSecurityCode(), addressId, null, null, null },
+						Integer.class);
+		return paymentInfoID;
+	}
+
+	public Integer SavePaymentTxn(int paymentInfoId, int paymentStatus, String message, Double amount, String txnCode,
+			String refNo) {
+		String sql = "call `savePaymentTxn`(?,?,?,?,?,?)";
+		Integer paymentTransactionID = (Integer) jdbcTemplate.queryForObject(sql,
+				new Object[] { paymentInfoId, paymentStatus, message, amount, txnCode, refNo }, Integer.class);
+		return paymentTransactionID;
+	}
+
+	@SuppressWarnings("deprecation")
+	public List<Date> GetAppointmentTimes(LocalDate requestDate) {
+		String sql = "call `getAppointmentTimes`(?)";
+		Date d = null;
+		if (requestDate != null) {
+			d = requestDate.toDate();
+			LOGGER.info(d.toString());
+		}
+		
+		List<Date> times = jdbcTemplate.query(sql, new Object[] { d }, new RowMapper<Date>() {
+
+			@Override
+			public Date mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getDate("AppointmentDateStart");
+			}
+
+		});
+		return times;
+	}
+
+	public Integer ScheduleAppointment(Appointment appointment) {
+		String sql = "call `scheduleAppointment`(?,?,?,?,?,?)";
+		Integer appointmentId = (Integer) jdbcTemplate.queryForObject(sql, new Object[] {}, Integer.class);
+		return appointmentId;
 	}
 }

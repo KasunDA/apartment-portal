@@ -1,77 +1,86 @@
 package com.rentapi.model;
 
-public class ApartmentInfo {
-private Integer aptId;
-private Integer aptNo;
-private Integer BuildingNo;
-private Integer NoOfBedrooms;
-private Integer NoOfBathrooms;
-private Integer Garage;
-private Integer Sqft;
-private Integer PropertyTypeID;
+public class ApartmentInfo extends ApartmentInfoBase {
+	private String aptNo;
+	private String BuildingNo;
+	private Integer NoOfBedrooms;
+	private Integer NoOfBathrooms;
+	private Integer Garage;
+	private Integer Sqft;
+	private Integer PropertyTypeID;
+	private String propertyTypeName;
+	private Float rent;
 
-public Integer getAptId() {
-	return aptId;
-}
+	public String getAptNo() {
+		return aptNo;
 
-public void setAptId(Integer aptId) {
-	this.aptId = aptId;
-}
+	}
 
-public Integer getAptNo() {
-	return aptNo;
+	public void setAptNo(String aptNo) {
+		this.aptNo = aptNo;
+	}
 
-}
+	public Integer getNoOfBedrooms() {
+		return NoOfBedrooms;
+	}
 
-public void setAptNo(Integer aptNo) {
-	this.aptNo = aptNo;
-}
+	public void setNoOfBedrooms(Integer noOfBedrooms) {
+		NoOfBedrooms = noOfBedrooms;
+	}
 
-public Integer getNoOfBedrooms() {
-	return NoOfBedrooms;
-}
+	public String getBuildingNo() {
+		return BuildingNo;
+	}
 
-public void setNoOfBedrooms(Integer noOfBedrooms) {
-	NoOfBedrooms = noOfBedrooms;
-}
+	public void setBuildingNo(String buildingNo) {
+		BuildingNo = buildingNo;
+	}
 
-public Integer getBuildingNo() {
-	return BuildingNo;
-}
+	public Integer getNoOfBathrooms() {
+		return NoOfBathrooms;
+	}
 
-public void setBuildingNo(Integer buildingNo) {
-	BuildingNo = buildingNo;
-}
+	public void setNoOfBathrooms(Integer noOfBathrooms) {
+		NoOfBathrooms = noOfBathrooms;
+	}
 
-public Integer getNoOfBathrooms() {
-	return NoOfBathrooms;
-}
+	public Integer getGarage() {
+		return Garage;
+	}
 
-public void setNoOfBathrooms(Integer noOfBathrooms) {
-	NoOfBathrooms = noOfBathrooms;
-}
+	public void setGarage(Integer garage) {
+		Garage = garage;
+	}
 
-public Integer getGarage() {
-	return Garage;
-}
+	public Integer getSqft() {
+		return Sqft;
+	}
 
-public void setGarage(Integer garage) {
-	Garage = garage;
-}
+	public void setSqft(Integer sqft) {
+		Sqft = sqft;
+	}
 
-public Integer getSqft() {
-	return Sqft;
-}
+	public Integer getPropertyTypeID() {
+		return PropertyTypeID;
+	}
 
-public void setSqft(Integer sqft) {
-	Sqft = sqft;
-}
+	public void setPropertyTypeID(Integer propertyTypeID) {
+		PropertyTypeID = propertyTypeID;
+	}
 
-public Integer getPropertyTypeID() {
-	return PropertyTypeID;
-}
+	public String getPropertyTypeName() {
+		return propertyTypeName;
+	}
 
-public void setPropertyTypeID(Integer propertyTypeID) {
-	PropertyTypeID = propertyTypeID;
-}
+	public void setPropertyTypeName(String propertyTypeName) {
+		this.propertyTypeName = propertyTypeName;
+	}
+
+	public Float getRent() {
+		return rent;
+	}
+
+	public void setRent(Float rent) {
+		this.rent = rent;
+	}
 }

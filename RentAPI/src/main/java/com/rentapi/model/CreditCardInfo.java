@@ -2,15 +2,12 @@ package com.rentapi.model;
 
 public class CreditCardInfo {
 
-	private String name;
 	private String cardNumber;
 	private String expirationDate;
 	private String securityCode;
-	private String billAddress1;
-	private String billAddress2;
-	private String billCity;
-	private String billState;
-	private String billZipCode;
+	private String name;
+	private String phone;
+	private Address billingAddress;
 
 	public String getName() {
 		return name;
@@ -44,50 +41,25 @@ public class CreditCardInfo {
 		this.securityCode = securityCode;
 	}
 
-	public String getBillAddress1() {
-		return billAddress1;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setBillAddress1(String billAddress1) {
-		this.billAddress1 = billAddress1;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	public String getBillAddress2() {
-		return billAddress2;
+	public Address getBillingAddress() {
+		return billingAddress == null ? new Address() : billingAddress;
 	}
 
-	public void setBillAddress2(String billAddress2) {
-		this.billAddress2 = billAddress2;
-	}
-
-	public String getBillCity() {
-		return billCity;
-	}
-
-	public void setBillCity(String billCity) {
-		this.billCity = billCity;
-	}
-
-	public String getBillState() {
-		return billState;
-	}
-
-	public void setBillState(String billState) {
-		this.billState = billState;
-	}
-
-	public String getBillZipCode() {
-		return billZipCode;
-	}
-
-	public void setBillZipCode(String billZipCode) {
-		this.billZipCode = billZipCode;
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
 	}
 
 	public String toString() {
-		return String.format(
-				"Name=%s, Card Number=%s, Expiration Date=%s, Security Code=%s, Address1=%s, Address2=%s, City=%s, State=%s, Zip Cpde=%s",
-				name, cardNumber, expirationDate, securityCode, billAddress1, billAddress2, billCity, billState, billZipCode);
+		return String.format("Name=%s, Card Number=%s, Expiration Date=%s, Security Code=%s", name, cardNumber,
+				expirationDate, securityCode);
 	}
 
 }

@@ -21,9 +21,9 @@
 
     this.search = function (data) {
       var queryStr = "";
-      queryStr += "?noOfBedrooms=" + data.noOfBedrooms;
-      queryStr += "&noOfBathrooms=" + data.noOfBathrooms;
-      queryStr += "&patios=" + data.patios;
+      queryStr += "?bedrooms=" + data.bedrooms;
+      queryStr += "&bathrooms=" + data.bathrooms;
+      queryStr += "&garages=" + data.garages;
       return baseDataService.get("guest/search", queryStr);
     };
 
@@ -41,6 +41,13 @@
 
     this.bookmarkApt = function (data) {
       return baseDataService.post("guest/bookmarkApt", data);
+    };
+
+    this.getAvailableAppointmentTimes = function (requestDate) {
+      requestDate = requestDate || "";
+      var queryStr = "";
+      queryStr += "?requestDate=" + requestDate;
+      return baseDataService.get("guest/appointment/times", queryStr);
     };
   }
 

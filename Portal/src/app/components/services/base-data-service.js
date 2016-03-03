@@ -29,7 +29,7 @@
 
       var promise = $http.post(endpoint + webApiControllerMethod, object)
         .then(function (response) {
-          return response.data;
+          return response.data.data;
         })
         .catch(function (e) {
           //errorService.logError(e);

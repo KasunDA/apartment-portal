@@ -20,6 +20,18 @@
         controller: 'ResidentController',
         controllerAs: 'vm'
       })
+      .state('guest', {
+        url: '/guest/home',
+        templateUrl: 'app/guest/guest/guest.html',
+        controller: 'GuestController',
+        controllerAs: 'vm'
+      })
+      .state('guest-schedule', {
+        url: '/guest/schedule',
+        templateUrl: 'app/guest/schedule/schedule.html',
+        controller: 'GuestScheduleController',
+        controllerAs: 'vm'
+      })
       .state('admin-home', {
         url: '/admin/home',
         templateUrl: 'app/admin/admin-home/admin-home.html',

@@ -11,31 +11,29 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.rentapi.model.CreditCardPaymentInfo;
+import com.rentapi.model.PaymentResponse;
 import com.rentapi.service.PaymentService;
-
-import net.authorize.api.contract.v1.ANetApiResponse;
 
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
-	
+
 	@Autowired
 	private View jsonView;
-	
-	
+
 	@Autowired
 	private PaymentService paymentService;
-	
-	@RequestMapping(value = "/chargeCreditCard", method = RequestMethod.POST, consumes="application/json")
+
+	@RequestMapping(value = "/chargeCreditCard", method = RequestMethod.POST, consumes = "application/json")
 	public ModelAndView chargeCreditCard(@RequestBody CreditCardPaymentInfo cardInfo) {
 		LOGGER.info(cardInfo.toString());
-		
-		ANetApiResponse response = paymentService.chargeCreditCard(cardInfo, 10.00);
-		
+
+		PaymentResponse response = paymentService.processPayment(cardInfo, cardInfo.getAmount());
+
 		LOGGER.info(response.toString());
-		
+
 		return new ModelAndView(jsonView, "data", response);
 	}
 }

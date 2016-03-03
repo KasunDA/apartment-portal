@@ -3,23 +3,39 @@
 <div class="row">
   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8 col-lg-offset-1 col-md-offset-1 col-sm-offset-2 col-xs-offset-2">
 
-    <form ng-submit="vm.charge()" class="form-horizontal">
+    <div class="row" ng-show="vm.showPaymentSummary && vm.hasError" style="margin-bottom: 10px;text-align: center;">
+      <span class="label label-danger">{{vm.errorMsg}}</span>
+    </div>
 
+    <div class="row" ng-show="vm.showPaymentSummary && !vm.hasError" style="margin-bottom: 10px;text-align: center;">
+      <span class="label label-success">Transaction code: {{vm.txnCode}}</span>
+    </div>
+
+    <form name="vm.frm" ng-submit="vm.frm.$valid && vm.charge()"
+          class="form-horizontal" novalidate>
 
       <div class="form-group">
         <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
           <span>Customer Name</span>
         </label>
-        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
-          <input class="form-control" type="text" ng-model="vm.customerName" placeholder="Customer Name">
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.customerName" name="customerName"
+                 placeholder="Customer Name" required>
+          <span class="label label-warning" ng-show="vm.frm.customerName.$error.required && vm.frm.$submitted">
+            Please enter customer name
+          </span>
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
           <span>Card  Number</span>
         </label>
-        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
-          <input class="form-control" type="text" ng-model="vm.cardNumber" placeholder="Card Number">
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.cardNumber" name="cardNumber"
+                 placeholder="Card Number" required>
+          <span class="label label-warning" ng-show="vm.frm.cardNumber.$error.required && vm.frm.$submitted">
+            Please enter card number
+          </span>
         </div>
       </div>
       <div class="form-group">
@@ -27,22 +43,96 @@
           <span>Expiry Date</span>
         </label>
         <div class="col-lg-1 col-md-2">
-          <select class="form-control" ng-options="o.value as o.text for o in vm.months" ng-model="vm.expiryMonth"></select>
+          <select class="form-control" ng-options="o.value as o.text for o in vm.months"
+                  ng-model="vm.expiryMonth" name="expiryMonth" required></select>
+          <span class="label label-warning" ng-show="vm.frm.expiryMonth.$error.required && vm.frm.$submitted">
+            required
+          </span>
         </div>
         <div class="col-lg-1 col-md-2">
-          <select class="col-lg-1 col-md-2 form-control" ng-options="o.value as o.text for o in vm.years" ng-model="vm.expiryYear"></select>
+          <select class="col-lg-1 col-md-2 form-control"
+                  ng-options="o.value as o.text for o in vm.years"
+                  ng-model="vm.expiryYear" name="expiryYear" required></select>
+          <span class="label label-warning" ng-show="vm.frm.expiryYear.$error.required && vm.frm.$submitted">
+            required
+          </span>
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
           <span>Security Code</span>
         </label>
-        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
-          <input class=" form-control" type="text" ng-model="vm.securityCode" placeholder="Security Code">
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class=" form-control" type="text" ng-model="vm.securityCode"
+                 placeholder="Security Code" name="securityCode" required>
+          <span class="label label-warning" ng-show="vm.frm.securityCode.$error.required && vm.frm.$submitted">
+            Please enter security code
+          </span>
+        </div>
+      </div>
+      <h3>Address</h3>
+      <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
+          <span>Address 1</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class=" form-control" type="text" ng-model="vm.address1"
+                 placeholder="Address 1" name="address1" required>
+          <span class="label label-warning" ng-show="vm.frm.address1.$error.required && vm.frm.$submitted">
+            Please enter Address 1
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
+          <span>Address 2</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class=" form-control" type="text" name="address2" ng-model="vm.address2"
+                 placeholder="Address 2">
+          <span class="label label-warning" ng-show="vm.frm.address2.$error.required && vm.frm.$submitted">
+            Please enter Address 2
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
+          <span>City</span>
+        </label>
+        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+          <input class=" form-control" type="text" ng-model="vm.city" name="city"
+                 placeholder="City" required>
+          <span class="label label-warning" ng-show="vm.frm.city.$error.required && vm.frm.$submitted">
+            Please enter city
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
+          <span>State</span>
+        </label>
+        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+          <input class=" form-control" type="text" ng-model="vm.state" name="state"
+                 placeholder="State" required>
+          <span class="label label-warning" ng-show="vm.frm.state.$error.required && vm.frm.$submitted">
+            Please enter state
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-2 col-md-2 col-sm-3 col-xs-4">
+          <span>Zip</span>
+        </label>
+        <div class="col-lg-4 col-md-4 col-sm-9 col-xs-8">
+          <input class=" form-control" type="text" ng-model="vm.zip" name="zip"
+                 placeholder="Zip code" required>
+          <span class="label label-warning" ng-show="vm.frm.zip.$error.required && vm.frm.$submitted">
+            Please enter zip code
+          </span>
         </div>
       </div>
 
-      <button type="submit">Submit</button>
+      <button class="btn btn-primary" type="submit">Submit</button>
     </form>
 
   </div>

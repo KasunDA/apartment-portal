@@ -3,7 +3,7 @@
 
   angular.module("portal").controller("AptViewController", AptViewController);
 
-  AptViewController.$inject = ["$stateParams","dataService"];
+  AptViewController.$inject = ["$stateParams", "dataService"];
 
   function AptViewController($stateParams, dataService) {
     var vm = this;
@@ -17,17 +17,23 @@
       getApartment(vm.aptId);
     }
 
-    function getApartment(aptId){
-      dataService.getApartment(aptId).then(function(response){
-        vm.apt = response.data;
-      });
+    function getApartment(aptId) {
+      dataService.getApartment(aptId)
+        .then(function (response) {
+          vm.apt = response;
+        });
     }
 
-    vm.bookmarkApt = function (aptId) {
+    vm.bookmarkApt = function (aptId, val) {
       var data = {
-        aptId: aptId
+        aptId: aptId,
+        bookmarked: val
       };
-      dataService.bookmarkApt(data);
+      dataService.bookmarkApt(data)
+        .then(function (response) {
+          if (response)
+            vm.apt.bookmarked = val;
+        });
     };
 
     init();

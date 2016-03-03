@@ -1,10 +1,15 @@
 package com.rentapi.controller;
 
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.rentapi.model.ApartmentInfo;
+import com.rentapi.model.ApartmentInfoBase;
 import com.rentapi.model.ContactInfo;
 import com.rentapi.model.SearchQuery;
 import com.rentapi.model.SearchResultItem;
@@ -27,6 +33,8 @@ public class GuestController {
 
 	@Autowired
 	private View jsonView;
+	
+	private int residentId = 1;
 
 	@Autowired
 	private GuestService guestService;
@@ -62,13 +70,14 @@ public class GuestController {
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ModelAndView search(@RequestParam(value = "noOfBedrooms", required = false) Integer noOfBedrooms,
-			@RequestParam(value = "noOfBathrooms", required = false) Integer noOfBathrooms,
-			@RequestParam(value = "patios", required = false) Integer patios) {
+	public ModelAndView search(
+			@RequestParam(value = "bedrooms", required = false) Integer noOfBedrooms,
+			@RequestParam(value = "bathrooms", required = false) Integer noOfBathrooms,			
+			@RequestParam(value = "garages", required = false) Integer garages) {
 		SearchQuery searchQuery = new SearchQuery();
 		searchQuery.setNoOfBedrooms(noOfBedrooms);
 		searchQuery.setNoOfBathrooms(noOfBathrooms);
-		searchQuery.setPatios(patios);
+		searchQuery.setGarages(garages);
 		LOGGER.info("search");
 		
 		List<SearchResultItem> result = guestService.search(searchQuery);
@@ -88,19 +97,26 @@ public class GuestController {
 	@RequestMapping(value = "/getApartment", method = RequestMethod.GET)
 	public ModelAndView getApartment(@RequestParam(value = "aptId", required = false) Integer apartmentId) {
 		
-		LOGGER.info("getApartment");
-		
-		ApartmentInfo result = guestService.getApartment(apartmentId);
+		ApartmentInfo result = guestService.getApartment(apartmentId, residentId);
 
 		return new ModelAndView(jsonView, "data", result);
 	}
 
 	@RequestMapping(value = "/bookmarkApt", method = RequestMethod.POST, consumes = "application/json")
-	public ModelAndView bookmarkApt(@RequestBody int aptId) {
-
-		LOGGER.info("bookmarkApt");
-
-		return new ModelAndView(jsonView, "data", aptId);
+	public ModelAndView bookmarkApt(@RequestBody ApartmentInfoBase data) {
+		
+		Boolean result = guestService.bookmarkApartment(data.getAptId(), residentId,data.getBookmarked());
+		
+		return new ModelAndView(jsonView, "data", result);
 	}
+
+	@RequestMapping(value = "/appointment/times", method = RequestMethod.GET)
+	public ModelAndView getAppointmentTimes(@RequestParam(value = "requestDate", required = false) @DateTimeFormat(iso=ISO.DATE_TIME) LocalDate requestDate) {		
+		//LocalDate localRequestDate = new LocalDate(requestDate.getYear(), requestDate.getMonth(), requestDate.getDay());		
+		List<DateTime> availableDateTimes = guestService.GetAppointmentTimes(requestDate);
+		
+		return new ModelAndView(jsonView, "data", availableDateTimes);
+	}
+	
 
 }
