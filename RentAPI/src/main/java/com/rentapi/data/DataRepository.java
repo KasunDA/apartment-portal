@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,6 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import com.rentapi.controller.ResidentController;
 import com.rentapi.model.Address;
 import com.rentapi.model.ApartmentInfo;
 import com.rentapi.model.Appointment;
@@ -28,6 +26,7 @@ import com.rentapi.model.ContactInfo;
 import com.rentapi.model.CreditCardPaymentInfo;
 import com.rentapi.model.Issue;
 import com.rentapi.model.Lease;
+import com.rentapi.model.LoginResponse;
 import com.rentapi.model.Referral;
 import com.rentapi.model.ResidentIssue;
 import com.rentapi.model.SearchQuery;
@@ -35,7 +34,7 @@ import com.rentapi.model.SearchResultItem;
 
 @Component
 public class DataRepository {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataRepository.class);
 
 	private DataSource dataSource;
@@ -169,6 +168,7 @@ public class DataRepository {
 			referral.setApprovedDate((Date) (row.get("ApprovedDate")));
 			referral.setApprovedBy((Integer) (row.get("ApprovedBy")));
 			referral.setApprovedByName((String) (row.get("ApprovedByName")));
+			referral.setPhoneNumber((String) row.get("PhoneNumber"));
 
 			Address address = new Address();
 			address.setAddress1((String) (row.get("Address1")));
@@ -186,8 +186,11 @@ public class DataRepository {
 	}
 
 	public Integer CreateReferral(Referral referral) {
-		String sql = "call createReferral()";
-		Integer referralId = (Integer) jdbcTemplate.queryForObject(sql, new Object[] {}, Integer.class);
+		String sql = "call createReferral(?,?,?,?,?)";
+		Integer referralId = (Integer) jdbcTemplate.queryForObject(
+				sql, new Object[] { referral.getResidentId(), referral.getGuestName(),
+						referral.getAddress().getAddressID(), referral.getPhoneNumber(), referral.getEmailAddress() },
+				Integer.class);
 		return referralId;
 	}
 
@@ -243,16 +246,17 @@ public class DataRepository {
 			@Override
 			public Apt extractData(ResultSet rs) throws SQLException {
 				Apt apartment = new Apt();
-
-				apartment.setApartmentId(rs.getInt("PropertyID"));
-				apartment.setAptNo(rs.getString("AptNo"));
-				apartment.setBuildingNo(rs.getString("BuildingNo"));
-				apartment.setBedrooms(rs.getInt("NoOfBedrooms"));
-				apartment.setBathrooms(rs.getInt("NoOfBathrooms"));
-				apartment.setGarages(rs.getInt("Garage"));
-				apartment.setSft(rs.getInt("Sqft"));
-				apartment.setIsActive(rs.getBoolean("IsActive"));
-				apartment.setPropertyTypeName(rs.getString("PropertyTypeName"));
+				while (rs.next()) {
+					apartment.setApartmentId(rs.getInt("PropertyID"));
+					apartment.setAptNo(rs.getString("AptNo"));
+					apartment.setBuildingNo(rs.getString("BuildingNo"));
+					apartment.setBedrooms(rs.getInt("NoOfBedrooms"));
+					apartment.setBathrooms(rs.getInt("NoOfBathrooms"));
+					apartment.setGarages(rs.getInt("Garage"));
+					apartment.setSft(rs.getInt("Sqft"));
+					apartment.setIsActive(rs.getBoolean("IsActive"));
+					apartment.setPropertyTypeName(rs.getString("PropertyTypeName"));
+				}
 
 				return apartment;
 			}
@@ -409,8 +413,7 @@ public class DataRepository {
 				new Object[] { paymentInfoId, paymentStatus, message, amount, txnCode, refNo }, Integer.class);
 		return paymentTransactionID;
 	}
-
-	@SuppressWarnings("deprecation")
+	
 	public List<Date> GetAppointmentTimes(LocalDate requestDate) {
 		String sql = "call `getAppointmentTimes`(?)";
 		Date d = null;
@@ -418,7 +421,7 @@ public class DataRepository {
 			d = requestDate.toDate();
 			LOGGER.info(d.toString());
 		}
-		
+
 		List<Date> times = jdbcTemplate.query(sql, new Object[] { d }, new RowMapper<Date>() {
 
 			@Override
@@ -435,4 +438,48 @@ public class DataRepository {
 		Integer appointmentId = (Integer) jdbcTemplate.queryForObject(sql, new Object[] {}, Integer.class);
 		return appointmentId;
 	}
+
+	public LoginResponse ValidateUser(String userName, String password) {
+		String sql = "call rentportal.validateUser(?,?)";
+		LoginResponse response = jdbcTemplate.queryForObject(sql, new Object[] { userName, password },
+				new RowMapper<LoginResponse>() {
+					@Override
+					public LoginResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+						LoginResponse item = new LoginResponse();
+						item.setError(rs.getString("ErrorMsg"));
+						item.setSession(rs.getString("SessionGUID"));
+						item.setAccountID(rs.getInt("AccountID"));
+						item.setResidentID(rs.getInt("ResidentID"));
+						item.setStaffID(rs.getInt("StaffID"));
+						item.setIsAdmin(rs.getBoolean("IsAdmin"));
+						item.setIsGuest(rs.getBoolean("IsGuest"));
+						return item;
+					}
+				});
+
+		return response;
+	}
+
+	public Integer SaveAddress(Address address) {
+		Integer addressId = address.getAddressID();
+		if (addressId == null || addressId <= 0) {
+			String sql = "call `saveAddress`(?,?,?,?,?,?,?)";
+			addressId = (Integer) jdbcTemplate.queryForObject(sql, new Object[] { null, address.getAddress1(),
+					address.getAddress2(), address.getCity(), address.getState(), address.getZip(), "USA" },
+					Integer.class);
+		}
+		return addressId;
+	}
+
+	// public Integer CreateMaintenance(int residentId, Maintenance maintenance)
+	// {
+	// String sql = "call `createAdminIssue`(?,?,?,?)";
+	// Integer issueId = (Integer) jdbcTemplate.queryForObject(sql, new Object[]
+	// { issue.getResidentID(),
+	// issue.getTitle(), issue.getDescription(), issue.getStaffID(),
+	// issue.getMaintenanceStatusCodeID() },
+	// Integer.class);
+	// return issueId;
+	// }
+
 }
