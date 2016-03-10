@@ -1,0 +1,68 @@
+<h2>LOGIN</h2>
+
+<div id="login-page">
+
+  <div class="row">
+    <div class="r-col-661212">
+
+      <div class="login-panel">
+        <form name="vm.frm" class="form-horizontal"
+              ng-submit="vm.frm.$valid && vm.validateUser()"
+              style="margin: 20px;">
+          <div class="control-group">
+            <label class="control-label" for="inputEmail">Email</label>
+            <div class="controls">
+              <input type="text" id="inputEmail" placeholder="Email" class="form-control" ng-model="vm.emailAddress">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPassword">Password</label>
+            <div class="controls">
+              <input type="password" id="inputPassword" placeholder="Password" class="form-control"
+                     ng-model="vm.password">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <label class="">
+                <input type="checkbox"> Remember me
+              </label>
+
+            </div>
+          </div>
+          <div class="control-group">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </div>
+          <div class="forgot password">
+            <a ui-sref="forgot-password">Forgot Password</a>
+          </div>
+          <div class="forgot password">
+            <a ui-sref="register">First time Login, Click here to Register</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <div class="col-lg-6 col-md-6">
+     <span>
+     <h3>Register for a fast,easy application</h3>
+      <br>
+      <p>with a free account you can:</p>
+      <ul>
+        <li>
+          save your application and login any time to continue
+        </li>
+        <li>
+          check availability and get updates
+        </li>
+        <li>
+          check the status of your application
+        </li>
+      </ul>
+
+    </span>
+    </div>
+  </div>
+
+
+</div>

@@ -1,1 +1,62 @@
-<h2>Resident</h2>
+<div class="row">
+  <div class="r-col-12">
+
+    <h2>
+      <span ng-show="vm.residentId">Edit Resident</span>
+    </h2>
+
+    <form name="vm.frm" ng-submit="vm.frm.$valid && vm.save()" class="form-horizontal" novalidate>
+
+      <div class="form-group">
+        <label class="control-label r-col-34612">First Name</label>
+        <div class="r-col-98612">
+          <input type="text" ng-model="vm.resident.firstName" class="form-control" name="firstName" required>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.firstName.$error.required">
+            Please enter first name
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Last Name</label>
+        <div class="r-col-98612">
+          <input type="text" ng-model="vm.resident.lastName" class="form-control" name="lastName" required>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.lastName.$error.required">
+            Please enter last name
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Phone Number</label>
+        <div class="r-col-98612">
+          <input type="text" ng-model="vm.resident.phoneNumber" class="form-control" name="phoneNumber" required>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.phoneNumber.$error.required">
+            Please enter phone number
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Email</label>
+        <div class="r-col-98612">
+          <input type="text" ng-model="vm.resident.email" class="form-control" name="email" required>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.email.$error.required">
+            Please enter email
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Active Status</label>
+        <div class="r-col-98612">
+          <input type="checkbox" ng-model="vm.resident.isActive" name="isActive"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="r-col-34612"></label>
+        <div class="r-col-98612">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

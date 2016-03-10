@@ -4,25 +4,19 @@ import java.util.Date;
 
 public class Maintenance {
 	
-	private Integer maintanenceID;
-	private Integer accountID;
+	private Integer maintenanceID;
+	private Integer residentID;
 	private Date createDate;
 	private Date closedDate;
 	private String description;
 	private Integer staffID;
 	private Integer maintenanceStatusCodeID;
 	
-	public Integer getMaintanenceID() {
-		return maintanenceID;
+	public Integer getMaintenanceID() {
+		return maintenanceID;
 	}
-	public void setMaintanenceID(Integer maintanenceID) {
-		this.maintanenceID = maintanenceID;
-	}
-	public Integer getAccountID() {
-		return accountID;
-	}
-	public void setAccountID(Integer accountID) {
-		this.accountID = accountID;
+	public void setMaintenanceID(Integer maintanenceID) {
+		this.maintenanceID = maintanenceID;
 	}
 	public Date getClosedDate() {
 		return closedDate;
@@ -53,6 +47,12 @@ public class Maintenance {
 	}
 	public void setMaintenanceStatusCodeID(Integer maintenanceStatusCodeID) {
 		this.maintenanceStatusCodeID = maintenanceStatusCodeID;
+	}
+	public Integer getResidentID() {
+		return residentID;
+	}
+	public void setResidentID(Integer residentID) {
+		this.residentID = residentID;
 	}
 
 

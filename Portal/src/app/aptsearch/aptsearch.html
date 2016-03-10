@@ -1,3 +1,10 @@
+<div class="row">
+  <a class="btn btn-link" ui-sref="guest">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    <span>back</span>
+  </a>
+</div>
+
 <div class="t-page">
   <h2>Apartment Search</h2>
 
@@ -11,13 +18,14 @@
             No Of Bedrooms</label>
           <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
             <select ng-model="vm.noOfBedrooms" name="noOfBedrooms" class="form-control"
-            ng-required="!(vm.patios || vm.noOfBathrooms)">
+                    ng-required="!(vm.patios || vm.noOfBathrooms)">
               <option value="0">Studio</option>
               <option value="1">1 Bed room</option>
               <option value="2">2 Bed room</option>
               <option value="3">3 Bed room</option>
             </select>
-            <span class="error" ng-show="vm.frm.noOfBedrooms.$error.required && vm.frm.$submitted">Please enter a value</span>
+            <span class="error"
+                  ng-show="vm.frm.noOfBedrooms.$error.required && vm.frm.$submitted">Please enter a value</span>
           </div>
         </div>
 
@@ -40,6 +48,7 @@
           </label>
           <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
             <select ng-model="vm.garages" name="garages" class="form-control">
+              <option value="0">0</option>
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -57,7 +66,7 @@
   </div>
 
   <div ng-show="vm.searchsuccess">
-    <div class="table-responsive">
+    <div class="table-responsive" ng-show="vm.results.length !== 0">
       <table class="table table-bordered">
         <thead>
         <tr>
@@ -66,8 +75,6 @@
           <th>Bed rooms</th>
           <th>Bath rooms</th>
           <th>Garages</th>
-          <th>Sqft</th>
-          <th>Rent</th>
           <th></th>
         </tr>
         </thead>
@@ -78,11 +85,6 @@
           <td>{{r.noOfBedrooms}}</td>
           <td>{{r.noOfBathrooms}}</td>
           <td>{{r.garages}}</td>
-          <td>{{r.sft}}</td>
-          <td>
-            <span ng-show="r.rent === 0">Call for price</span>
-            <span ng-show="r.rent !== 0">{{r.rent}}</span>
-          </td>
           <td>
             <a ui-sref="apt-view({aptId: r.aptId})">View</a>
           </td>
@@ -90,6 +92,12 @@
         </tbody>
       </table>
     </div>
+
+    <!-- vm.results is an array of search results -->
+    <div ng-show="vm.results.length === 0" class="text-center">
+      <span class="label label-warning">No results found</span>
+    </div>
+
   </div>
 
 </div>

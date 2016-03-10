@@ -27,7 +27,6 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   }
 }
 
-
 .t-page {
   padding: 10px;
 }
@@ -57,8 +56,135 @@ body {
   background-color: #f5f5f5;
 }
 
+$error-text-color: darken(red, 10%);
+$required-text-color: darken(red, 10%);
 
+.error {
+  color: $error-text-color;
+}
 
+form.ng-submitted {
+  .form-control.ng-invalid {
+    border-color: $error-text-color;
+  }
+}
+
+.required {
+  color: $required-text-color;
+}
+
+.page-container {
+  padding: 20px;
+
+  h2 {
+    background-color: lighten($brand-primary, 50%);
+    padding: 10px;
+    border-radius: 5px;
+  }
+}
+
+#login-page {
+  .login-panel {
+    border: 1px solid #DDDDDD;
+    margin: 20px;
+  }
+}
+
+.r-form-panel {
+  @extend .panel;
+  @extend .panel-default;
+
+  .r-form-panel-heading {
+    @extend .panel-heading;
+    position: relative;
+
+    .r-form-panel-btns {
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin: 5px 0;
+    }
+
+    .r-form-panel-title {
+      @extend .panel-title;
+    }
+  }
+
+  .r-form-panel-body {
+    @extend .panel-body;
+    //padding: 10px;
+  }
+}
+
+/*********************************************
+  Bootstrap Extensions
+*********************************************/
+
+@mixin r-col($col) {
+  @include make-xs-column($col);
+  @include make-sm-column($col);
+  @include make-md-column($col);
+  @include make-lg-column($col);
+}
+
+@mixin r-col-custom($col1, $col2, $col3, $col4) {
+  @include make-xs-column($col4);
+  @include make-sm-column($col3);
+  @include make-md-column($col2);
+  @include make-lg-column($col1);
+}
+
+.r-col-3 {
+  @include r-col(3);
+}
+
+.r-col-4 {
+  @include r-col(4);
+}
+
+.r-col-6 {
+  @include r-col(6);
+}
+
+.r-col-12 {
+  @include r-col(12);
+}
+
+.r-col-66612 {
+  @include r-col-custom(6, 6, 6, 12);
+}
+
+.r-col-661212 {
+  @include r-col-custom(6, 6, 12, 12);
+}
+
+.r-col-34612 {
+  @include r-col-custom(3, 4, 6, 12);
+}
+
+.r-col-36612 {
+  @include r-col-custom(3, 6, 6, 12);
+}
+
+.r-col-44612 {
+  @include r-col-custom(4, 4, 6, 12);
+}
+
+.r-col-98612 {
+  @include r-col-custom(9, 8, 6, 12);
+}
+
+.main-img-top {
+  background-image: url("../assets/images/apartments/service-apartments.jpg");
+  @extend .img-responsive;
+  min-height: 300px;
+  text-align: center;
+
+  .btn-check {
+    margin-top: 100px;
+  }
+
+}
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject

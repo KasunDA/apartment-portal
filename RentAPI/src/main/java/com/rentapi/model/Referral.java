@@ -6,6 +6,7 @@ import java.util.Date;
 public class Referral extends ReferralBase {
 	private String guestName; 
 	private String emailAddress;
+	private String phoneNumber;
 	private Integer userId;
 	private String residentName;
 	private Integer residentId;
@@ -39,7 +40,9 @@ public class Referral extends ReferralBase {
 	public void setResidentId(Integer residentId) {
 		this.residentId = residentId;
 	}
-	public Address getAddress() {
+	public Address getAddress() {		
+		if(address == null)
+			address = new Address();		
 		return address;
 	}
 	public void setAddress(Address address) {
@@ -68,5 +71,11 @@ public class Referral extends ReferralBase {
 	}
 	public void setResidentName(String residentName) {
 		this.residentName = residentName;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 }

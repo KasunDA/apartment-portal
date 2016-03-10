@@ -2,7 +2,7 @@ package com.rentapi.model;
 
 public class Apt {
 
-private int apartmentId;
+private Integer apartmentId;
 private String aptNo;
 private String buildingNo;
 private int bedrooms;
@@ -10,13 +10,14 @@ private int bathrooms;
 private int garages;
 private int sft;
 private int propertyType;
+private float rent;
 private String propertyTypeName;
 private Boolean isActive;
 
-public int getApartmentId() {
+public Integer getApartmentId() {
 	return apartmentId;
 }
-public void setApartmentId(int propertyID) {
+public void setApartmentId(Integer propertyID) {
 	this.apartmentId = propertyID;
 }
 public String getAptNo() {
@@ -72,5 +73,11 @@ public Boolean getIsActive() {
 }
 public void setIsActive(Boolean isActive) {
 	this.isActive = isActive;
+}
+public float getRent() {
+	return rent;
+}
+public void setRent(float rent) {
+	this.rent = rent;
 }
 }

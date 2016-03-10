@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.rentapi.model.Resident;
+import com.rentapi.model.Staff;
 import com.rentapi.data.DataRepository;
 import com.rentapi.model.Apt;
 import com.rentapi.model.Issue;
@@ -75,6 +77,22 @@ public class AdminService {
 			LOGGER.error(ex.toString());
 			return false;
 		}
+	}
+
+	public List<Resident> GetAdminResidentList() {
+		return repository.GetAdminResidentList();
+	}
+	
+	public Resident GetAdminResident(int residentId){
+		return repository.GetAdminResident(residentId);
+	}
+
+	public List<Staff> getStaffList() {
+		return repository.GetStaffList();
+	}
+
+	public Boolean updateIssue(Issue issue) {
+		return repository.updateIssue(issue);
 	}
 
 }

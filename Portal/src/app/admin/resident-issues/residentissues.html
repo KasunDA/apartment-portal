@@ -1,3 +1,9 @@
+<div class="row">
+  <a class="btn btn-link" ui-sref="admin-home">
+    <span class="glyphicon glyphicon-home"></span>
+    <span>Admin Services</span>
+  </a>
+</div>
 <h2>Maintenance Issues</h2>
 
 <table class="table">
@@ -7,18 +13,35 @@
     <th>Description</th>
     <th>Resident</th>
     <th>Staff</th>
-    <th>Date</th>
+    <th>Create Date</th>
     <th>Status</th>
+    <th>Closed Date</th>
   </tr>
   </thead>
 
   <tr ng-repeat="issue in vm.issues">
     <td>{{issue.title}}</td>
     <td>{{issue.description}}</td>
-    <td>{{issue.firstName}} {{issue.lastName}}</td>
-    <td>{{issue.staffFirstName}} {{issue.staffLastName}}</td>
-    <td>{{issue.createDate}}</td>
-    <td>{{issue.statusName}}</td>
+    <td>
+      <a ui-sref="admin-resident({residentId: issue.residentID})">
+        {{issue.firstName}} {{issue.lastName}}
+      </a>
+    </td>
+    <td>
+      <select class="form-control" ng-options="x.staffId as (x.firstName + ' ' + x.lastName) for x in vm.staffList"
+              ng-model="issue.staffID"></select>
+    </td>
+    <td>{{issue.createDate | date: 'MM/dd/yyyy'}}</td>
+    <td>
+      <select ng-model="issue.maintenanceStatusCodeID" class="form-control"
+              ng-options="x.value as x.text for x in vm.statuses"></select>
+    </td>
+    <td>
+      <input type="date" ng-model="issue.closedDate" class="form-control">
+    </td>
+    <td>
+      <button type="button" class="btn btn-default btn-sm" ng-click="vm.updateIssue(issue)">Save</button>
+    </td>
   </tr>
 
 </table>

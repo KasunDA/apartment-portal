@@ -1,0 +1,113 @@
+<div class="row">
+  <a class="btn btn-link" ui-sref="admin-home">
+    <span class="glyphicon glyphicon-home"></span>
+    <span>Admin Services</span>
+  </a>
+</div>
+<div class="row">
+  <div class="r-col-12">
+
+    <h2>
+      <span ng-show="!vm.apt.apartmentId">Add Apartment</span>
+      <span ng-show="vm.apt.apartmentId">Edit Apartment</span> <!-- if it has apt id it will show edit option -->
+    </h2>
+
+    <form name="vm.frm" ng-submit="vm.frm.$valid && vm.save()" class="form-horizontal" novalidate>
+
+      <div class="form-group">
+        <label class="control-label r-col-34612">Apartment Number</label>
+        <div class="r-col-98612">
+          <input type="text" ng-model="vm.apt.aptNo" class="form-control" name="aptNo" required>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.aptNo.$error.required">
+            Please enter apartment number
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Building Number</label>
+        <div class="r-col-98612">
+          <input type="text" ng-model="vm.apt.buildingNo" class="form-control" name="buildingNo">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Bath rooms</label>
+        <div class="r-col-98612">
+          <select class="form-control" ng-model="vm.apt.bathrooms"
+                  ng-options="x for x in [0,1,2,3,4]" name="bathrooms" required>
+          </select>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.bathrooms.$error.required">
+            Please enter bathrooms
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Bed rooms</label>
+        <div class="r-col-98612">
+          <select class="form-control" ng-model="vm.apt.bedrooms"
+                  ng-options="x for x in [0,1,2,3,4]" name="bedrooms" required>
+          </select>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.bedrooms.$error.required">
+            Please enter bedrooms
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Garages</label>
+        <div class="r-col-98612">
+          <select class="form-control" ng-model="vm.apt.garages"
+                  ng-options="x for x in [0,1,2,3,4]" name="garages" required>
+          </select>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.garages.$error.required">
+            Please enter garages
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Apartment type</label>
+        <div class="r-col-98612">
+          <select class="form-control" ng-model="vm.apt.propertyType" name="propertyType" required>
+            <option value="1">Studio</option>
+            <option value="2">1 BHK</option>
+            <option value="3">2 BHK</option>
+            <option value="4">Town home</option>
+          </select>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.propertyType.$error.required">
+            Please enter property type
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Square Feet</label>
+        <div class="r-col-98612">
+          <input type="number" class="form-control" ng-model="vm.apt.sft" name="sft" required/>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.sft.$error.required">
+            Please enter sqft
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Rent</label>
+        <div class="r-col-98612">
+          <input type="number" class="form-control" ng-model="vm.apt.rent" name="rent" required/>
+          <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.rent.$error.required">
+            Please enter monthly rent
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">Active Status</label>
+        <div class="r-col-98612">
+          <input type="checkbox" ng-model="vm.apt.isActive" name="isActive"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="r-col-34612"></label>
+        <div class="r-col-98612">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

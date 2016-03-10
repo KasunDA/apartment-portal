@@ -1,4 +1,19 @@
-<h2>Apartment List</h2>
+<div class="row">
+  <a class="btn btn-link" ui-sref="admin-home">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    <span>back</span>
+  </a>
+</div>
+<h2>Property List</h2>
+
+<div class="row">
+  <div class="r-col-12 text-right">
+    <button class="btn btn-primary" ui-sref="admin-apt-edit({apartmentId: null})" tooltip="Add new property">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>Add</span>
+    </button>
+  </div>
+</div>
 
 <div class="table">
   <table class="table table-condensed">
@@ -9,9 +24,11 @@
       <th>Bedrooms</th>
       <th>Bathrooms</th>
       <th>Type</th>
-      <th>Active</th>
-      <th>Edit</th>
-      <th>Remove</th>
+      <th>Sqft.</th>
+      <th>Rent</th>
+      <th class="text-center">Active</th>
+      <th class="text-center">Edit</th>
+      <th class="text-center">Remove</th>
     </tr>
     </thead>
     <tbody>
@@ -21,14 +38,20 @@
       <td>{{a.bedrooms}}</td>
       <td>{{a.bathrooms}}</td>
       <td>{{a.propertyTypeName}}</td>
-      <td>{{a.isActive}}</td>
-      <td>
-        <a ui-sref="admin-apt-edit({apartmentId: a.apartmentId})">
+      <td>{{a.sft}}</td>
+      <td>{{a.rent}}</td>
+      <td class="text-center">
+        <span class="label label-success" ng-show="a.isActive">Active</span>
+        <span class="label label-danger" ng-show="!a.isActive">InActive</span>
+      </td>
+      <td class="text-center">
+        <a class="btn btn-link" ui-sref="admin-apt-edit({apartmentId: a.apartmentId})" tooltip="Edit property details">
           <span class="glyphicon glyphicon-edit"></span>
         </a>
       </td>
-      <td>
-        <a ng-click="vm.remove(a.apartmentId)">
+      <td class="text-center">
+        <a class="btn btn-link" ng-click="vm.remove(a.apartmentId)"
+           tooltip="Deactivate property" ng-disabled="!a.isActive">
           <span class="glyphicon glyphicon-remove"></span>
         </a>
       </td>

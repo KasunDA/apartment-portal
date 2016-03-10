@@ -28,9 +28,12 @@ import com.rentapi.model.Issue;
 import com.rentapi.model.Lease;
 import com.rentapi.model.LoginResponse;
 import com.rentapi.model.Referral;
+import com.rentapi.model.ResidentApplication;
 import com.rentapi.model.ResidentIssue;
 import com.rentapi.model.SearchQuery;
 import com.rentapi.model.SearchResultItem;
+import com.rentapi.model.Staff;
+import com.rentapi.model.Resident;
 
 @Component
 public class DataRepository {
@@ -211,7 +214,9 @@ public class DataRepository {
 				apartment.setBathrooms(rs.getInt("NoOfBathrooms"));
 				apartment.setGarages(rs.getInt("Garage"));
 				apartment.setSft(rs.getInt("Sqft"));
+				apartment.setRent(rs.getFloat("Rent"));
 				apartment.setIsActive(rs.getBoolean("IsActive"));
+				apartment.setPropertyType(rs.getInt("PropertyTypeID"));
 				apartment.setPropertyTypeName(rs.getString("PropertyTypeName"));
 
 				return apartment;
@@ -223,11 +228,11 @@ public class DataRepository {
 	}
 
 	public Integer CreateApt(int userId, Apt apartment) {
-		String sql = "call `createAdminProperty`(?,?,?,?,?,?,?)";
+		String sql = "call `createAdminProperty`(?,?,?,?,?,?,?,?,?,?)";
 		Integer aptId = (Integer) jdbcTemplate.queryForObject(sql,
-				new Object[] { apartment.getAptNo(), apartment.getBuildingNo(), apartment.getBedrooms(),
-						apartment.getBathrooms(), apartment.getGarages(), apartment.getSft(),
-						apartment.getPropertyType() },
+				new Object[] { apartment.getApartmentId(), apartment.getAptNo(), apartment.getBuildingNo(),
+						apartment.getBedrooms(), apartment.getBathrooms(), apartment.getGarages(), apartment.getSft(),
+						apartment.getRent(), apartment.getPropertyType(), apartment.getIsActive() },
 				Integer.class);
 		return aptId;
 	}
@@ -255,6 +260,7 @@ public class DataRepository {
 					apartment.setGarages(rs.getInt("Garage"));
 					apartment.setSft(rs.getInt("Sqft"));
 					apartment.setIsActive(rs.getBoolean("IsActive"));
+					apartment.setPropertyType(rs.getInt("PropertyTypeID"));
 					apartment.setPropertyTypeName(rs.getString("PropertyTypeName"));
 				}
 
@@ -413,7 +419,7 @@ public class DataRepository {
 				new Object[] { paymentInfoId, paymentStatus, message, amount, txnCode, refNo }, Integer.class);
 		return paymentTransactionID;
 	}
-	
+
 	public List<Date> GetAppointmentTimes(LocalDate requestDate) {
 		String sql = "call `getAppointmentTimes`(?)";
 		Date d = null;
@@ -426,6 +432,8 @@ public class DataRepository {
 
 			@Override
 			public Date mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				String.format("%s", rs.getInt("AppointmentDateStart"));
 				return rs.getDate("AppointmentDateStart");
 			}
 
@@ -434,8 +442,9 @@ public class DataRepository {
 	}
 
 	public Integer ScheduleAppointment(Appointment appointment) {
-		String sql = "call `scheduleAppointment`(?,?,?,?,?,?)";
-		Integer appointmentId = (Integer) jdbcTemplate.queryForObject(sql, new Object[] {}, Integer.class);
+		String sql = "call `scheduleAppointment`(?,?,?,?)";
+		Integer appointmentId = (Integer) jdbcTemplate.queryForObject(sql, new Object[] { appointment.getName(),
+				appointment.getPhone(), appointment.getEmail(), appointment.getAppointmentDate() }, Integer.class);
 		return appointmentId;
 	}
 
@@ -481,5 +490,102 @@ public class DataRepository {
 	// Integer.class);
 	// return issueId;
 	// }
+
+	public void saveOrUpdate(ResidentApplication residentApplication) {
+		// TODO Auto-generated method stub
+		String sql = "INSERT INTO residentApplication (currentAddress, currentAddressStartDate, "
+				+ "currentAddressEndDate, previousAddress, employerName, companyAddress, annualIncome)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
+		jdbcTemplate.update(sql, residentApplication.getCurrentAddress(),
+				residentApplication.getCurrentAddressStartDate(), residentApplication.getCurrentAddressEndDate(),
+				residentApplication.getPreviousAddress(), residentApplication.getEmployerName(),
+				residentApplication.getCompanyAddress(), residentApplication.getAnnualIncome());
+	}
+
+	public List<Resident> GetAdminResidentList() {
+
+		String sql = "call getAdminResidentList();";
+
+		List<Resident> rows = jdbcTemplate.query(sql, new RowMapper<Resident>() {
+
+			@Override
+			public Resident mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Resident r = new Resident();
+
+				r.setFirstName(rs.getString("FirstName"));
+				r.setLastName(rs.getString("LastName"));
+				r.setEmail(rs.getString("Email"));
+				r.setPhoneNumber(rs.getString("PhoneNumber"));
+				r.setLeaseStartDate(rs.getDate("LeaseStartDate"));
+				r.setLeaseEndDate(rs.getDate("LeaseEndDate"));
+				r.setResidentID(rs.getInt("ResidentID"));
+				r.setAccountID(rs.getInt("AccountID"));
+				r.setPropertyID(rs.getInt("PropertyID"));
+				r.setLeaseID(rs.getInt("LeaseID"));
+
+				return r;
+			}
+		});
+
+		return rows;
+	}
+
+	public Resident GetAdminResident(int residentId) {
+
+		String sql = "call getAdminResident(?);";
+
+		Resident rows = jdbcTemplate.queryForObject(sql, new Object[] { residentId }, new RowMapper<Resident>() {
+
+			@Override
+			public Resident mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Resident r = new Resident();
+
+				r.setFirstName(rs.getString("FirstName"));
+				r.setLastName(rs.getString("LastName"));
+				r.setEmail(rs.getString("Email"));
+				r.setPhoneNumber(rs.getString("PhoneNumber"));
+				r.setLeaseStartDate(rs.getDate("LeaseStartDate"));
+				r.setLeaseEndDate(rs.getDate("LeaseEndDate"));
+				r.setResidentID(rs.getInt("ResidentID"));
+				r.setAccountID(rs.getInt("AccountID"));
+				r.setPropertyID(rs.getInt("PropertyID"));
+				r.setLeaseID(rs.getInt("LeaseID"));
+				r.setIsActive(rs.getBoolean("IsActive"));
+
+				return r;
+			}
+		});
+
+		return rows;
+	}
+
+	public List<Staff> GetStaffList() {
+
+		String sql = "call getStaffList();";
+
+		List<Staff> rows = jdbcTemplate.query(sql, new RowMapper<Staff>() {
+
+			@Override
+			public Staff mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Staff r = new Staff();
+
+				r.setFirstName(rs.getString("FirstName"));
+				r.setLastName(rs.getString("LastName"));
+				r.setStaffId(rs.getInt("StaffID"));
+
+				return r;
+			}
+		});
+
+		return rows;
+	}
+
+	public Boolean updateIssue(Issue issue) {
+		String sql = "call `updateIssue`(?,?,?,?)";
+		jdbcTemplate.update(sql, new Object[] { issue.getMaintenanceID(), issue.getStaffID(), issue.getClosedDate(),
+				issue.getMaintenanceStatusCodeID() });
+		return true;
+
+	}
 
 }

@@ -17,6 +17,8 @@ import com.rentapi.model.Apt;
 import com.rentapi.model.Issue;
 import com.rentapi.model.Referral;
 import com.rentapi.model.ReferralBase;
+import com.rentapi.model.Resident;
+import com.rentapi.model.Staff;
 import com.rentapi.model.Lease;
 import com.rentapi.service.AdminService;
 
@@ -99,4 +101,28 @@ public class AdminController {
 		return new ModelAndView(jsonView, "data", issueId);
 	}
 
+	@RequestMapping(value = "/resident/list", method = RequestMethod.GET)
+	public ModelAndView getAdminResidentList() {
+		List<Resident> residentList = adminService.GetAdminResidentList();
+		return new ModelAndView(jsonView, "data", residentList);
+	}
+
+
+	@RequestMapping(value = "/resident/view", method = RequestMethod.GET)
+	public ModelAndView getAdminResident(@RequestParam(value = "residentId", required = true) int residentId) {
+		Resident resident = adminService.GetAdminResident(residentId);
+		return new ModelAndView(jsonView, "data", resident);
+	}
+
+	@RequestMapping(value = "/staff/list", method = RequestMethod.GET)
+	public ModelAndView getStaffList() {
+		List<Staff> staffList = adminService.getStaffList();
+		return new ModelAndView(jsonView, "data", staffList);
+	}
+
+	@RequestMapping(value = "/issue/save", method = RequestMethod.POST, consumes = "application/json")
+	public ModelAndView updateIssue(@RequestBody Issue issue) {
+		Boolean result = adminService.updateIssue(issue);
+		return new ModelAndView(jsonView, "data", result);
+	}
 }

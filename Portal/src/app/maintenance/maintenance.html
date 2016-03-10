@@ -1,18 +1,70 @@
-<h2>Maintenance Home</h2>
+<div class="row">
+  <a ui-sref="resident">
+    <span class="glyphicon glyphicon-home"></span>
+    <span>Resident Services</span>
+  </a>
+</div>
+<h2>Maintenance </h2>
+<div class="row">
+  <div class="r-col-12 ">
+    <form name="vm.frm" ng-submit="vm.frm.$valid && vm.maintenance()" novalidate class="form-horizontal">
+      <div class="form-group">
+        <label class="control-label r-col-34612"> <!--form-group means row internally-->
+          <span>Name</span>
+        </label>
+        <div class="r-col-98612">
+          <input class="form-control" type="text" ng-model="vm.Name" name="Name"
+                 placeholder="Name" required>
+          <span class="label label-warning" ng-show="vm.frm.Name.$error.required && vm.frm.$submitted">
+            Please enter name
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">
+          <span>AptNo</span>
+        </label>
+        <div class="r-col-98612">
+          <input class="form-control" type="text" ng-model="vm.AptNo" name="AptNo"
+                 placeholder="AptNo" required>
+          <span class="label label-warning" ng-show="vm.frm.AptNo.$error.required && vm.frm.$submitted">
+            AptNo
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">
+          <span>Issue</span>
+        </label>
+        <div class="r-col-98612">
+          <input class=" form-control" type="text" ng-model="vm.issue"
+                 placeholder="" name="issue" required>
+          <span class="label label-warning" ng-show="vm.frm.issue.$error.required && vm.frm.$submitted">
 
-<table class="table">
-  <thead>
-  <tr>
-    <th>Date</th>
-    <th>Description</th>
-    <th>Status</th>
-  </tr>
-  </thead>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612">
+          <span>Description</span>
+        </label>
+        <div class="r-col-98612">
+          <textarea class=" form-control" ng-model="vm.description"
+                    placeholder="" name="address1" required> </textarea>
+          <span class="label label-warning" ng-show="vm.frm.description.$error.required && vm.frm.$submitted">
 
-    <tr ng-repeat="issue in vm.issues">
-      <td>{{issue.requestDate}}</td>
-      <td>{{issue.description}}</td>
-      <td>{{issue.status}}</td>
-    </tr>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label r-col-34612"></label>
+        <div class="r-col-98612">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </div>
+    </form>
 
-</table>
+  </div>
+</div>
+
+

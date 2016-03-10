@@ -1,9 +1,12 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('portal')
-    .config(routerConfig);
+    .config(routerConfig)
+    .run(handleStateChange);
+
+  handleStateChange.$inject = ["$rootScope", "$state", "$localStorage"];
 
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
@@ -14,11 +17,19 @@
         controller: 'MainController',
         controllerAs: 'main'
       })
+      .state('amenities', {
+        url: '/amenities',
+        templateUrl: 'app/amenities/amenities.html',
+        controller: 'AmenitiesController',
+        controllerAs: 'vm'
+      })
       .state('resident', {
         url: '/resident/home',
         templateUrl: 'app/resident/resident.html',
         controller: 'ResidentController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "RESIDENT"
       })
       .state('guest', {
         url: '/guest/home',
@@ -32,65 +43,111 @@
         controller: 'GuestScheduleController',
         controllerAs: 'vm'
       })
+      .state('guest-application', {
+        url: '/guest/application',
+        templateUrl: 'app/guest/guest-application/guestapplication.html',
+        controller: 'GuestApplicationController',
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "GUEST"
+      })
+      .state('login', {
+        url: '/login',
+        templateUrl: 'app/login/login.html',
+        controller: 'LoginController',
+        controllerAs: 'vm'
+      })
+      .state('logout', {
+        url: '/logout',
+        templateUrl: 'app/logout/logout.html',
+        controller: 'LogoutController',
+        controllerAs: 'vm'
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: 'app/register/register.html',
+        controller: 'RegisterController',
+        controllerAs: 'vm'
+      })
       .state('admin-home', {
         url: '/admin/home',
         templateUrl: 'app/admin/admin-home/admin-home.html',
         controller: 'AdminHomeController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-apt-list', {
         url: '/admin/apartment/list',
         templateUrl: 'app/admin/apt-list/aptlist.html',
         controller: 'AdminAptListController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-apt-edit', {
         url: '/admin/apartment/edit/:apartmentId',
-        templateUrl: 'app/admin/apt-list/aptlist.html',
-        controller: 'AdminAptListController',
-        controllerAs: 'vm'
+        templateUrl: 'app/admin/apt-edit/aptedit.html',
+        controller: 'AdminAptEditController',
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-lease-list', {
         url: '/admin/lease/list',
         templateUrl: 'app/admin/lease-list/lease-list.html',
         controller: 'AdminLeaseListController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-referral-list', {
         url: '/admin/referral/list',
         templateUrl: 'app/admin/referral-list/referrallist.html',
         controller: 'AdminReferralListController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-resident-issue-list', {
         url: '/admin/resident/issue/list',
         templateUrl: 'app/admin/resident-issues/residentissues.html',
         controller: 'AdminIssueListController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-resident-list', {
         url: '/admin/resident/list',
-        templateUrl: 'app/admin/residentlist.html',
+        templateUrl: 'app/admin/resident-list/residentlist.html',
         controller: 'AdminResidentListController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-resident', {
         url: '/admin/resident/view/:residentId',
         templateUrl: 'app/admin/resident/resident.html',
         controller: 'AdminResidentController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-guest-list', {
         url: '/admin/guest/list',
         templateUrl: 'app/admin/guest-list/guestlist.html',
         controller: 'AdminGuestListController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('admin-guest', {
         url: '/admin/guest/view/:guestId',
         templateUrl: 'app/admin/guest/guest.html',
         controller: 'AdminGuestController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
       })
       .state('apt-search', {
         url: '/apartment/search',
@@ -110,26 +167,62 @@
         controller: 'ContactController',
         controllerAs: 'vm'
       })
+      .state('referral-list', {
+        url: '/referral/list',
+        templateUrl: 'app/referral-list/referral-list.html',
+        controller: 'ReferralListController',
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "RESIDENT"
+      })
       .state('referral', {
-        url: '/referral',
+        url: '/refer/friend',
         templateUrl: 'app/referral/referral.html',
         controller: 'ReferralController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "RESIDENT"
       })
       .state('maintenance', {
         url: '/maintenance',
         templateUrl: 'app/maintenance/maintenance.html',
         controller: 'MaintenanceController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "RESIDENT"
       })
       .state('payment', {
         url: '/payment',
         templateUrl: 'app/payment/payment.html',
         controller: 'PaymentController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "RESIDENT"
       });
 
     $urlRouterProvider.otherwise('/');
+  }
+
+  function handleStateChange($rootScope, $state, $localStorage) {
+    $rootScope.$on("$stateChangeStart", function (event, toState, toStateParams) {
+
+      if (toState.authenticate) {
+
+        if (!$localStorage.global_auth) {
+          $localStorage.redirectState = toState.name;
+          $localStorage.redirectStateParams = toStateParams;
+          event.preventDefault();
+          $state.go("login");
+        }
+        else if (toState.role !== $localStorage.global_role) {
+          $localStorage.redirectState = toState.name;
+          $localStorage.redirectStateParams = toStateParams;
+          event.preventDefault();
+          $state.go("login");
+        }
+      }
+
+    });
   }
 
 })();

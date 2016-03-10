@@ -2,19 +2,22 @@
   'use strict';
   angular.module("portal").controller("AdminResidentListController", AdminResidentListController);
 
-  AdminResidentListController.$inject = ["dataService"];
+  AdminResidentListController.$inject = ["adminDataService"];
 
-  function AdminResidentListController(dataService) {
+  function AdminResidentListController(adminDataService) {
     var vm = this; //model is created
 
     function getResidentList() {  //call to database
-      dataService.getResidentList().then(function (response) {
-        vm.residentlist = response.data;
-
+      adminDataService.getResidentList().then(function (response) {
+        vm.residentlist = response;
       });
     }
 
-    getResidentList();
+    function init() {
+      getResidentList();
+    }
+
+    init();
 
   }
 })();

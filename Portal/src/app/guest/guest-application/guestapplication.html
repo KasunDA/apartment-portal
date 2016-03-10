@@ -1,0 +1,149 @@
+<h2>Application Form</h2>
+<div class="row" ng-show="!vm.success">
+  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8 col-lg-offset-1 col-md-offset-1 col-sm-offset-2 col-xs-offset-2">
+
+    <form ng-submit="vm.application()" class="form-horizontal">
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Name</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.name" name="name"
+                 placeholder="Your Name" required>
+          <span class="label label-warning" ng-show="vm.frm.name.$error.required && vm.frm.$submitted">
+            Please enter your name
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Current Address</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.Address" name="Address"
+                 placeholder="Address" required>
+          <span class="label label-warning" ng-show="vm.frm.Address.$error.required && vm.frm.$submitted">
+            Address must be filled.
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Email</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.email" name="email"
+                 placeholder="Email address" required>
+          <span class="label label-warning" ng-show="vm.frm.email.$error.required && vm.frm.$submitted">
+            Please enter email
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Phone</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.phone" name="phone"
+                 placeholder="phone number" required>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <div>Select the type of Apartment</div>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input type="checkbox" id="inlineCheckbox1" value="option1"> Studio
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input type="checkbox" id="inlineCheckbox2" value="option2"> 1 Bedroom
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input type="checkbox" id="inlineCheckbox3" value="option3"> 2 Bedroom
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input type="checkbox" id="inlineCheckbox4" value="option4"> 3 Bedroom
+        </div>
+          <span class="label label-warning">
+            choose any one
+          </span>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <span>Building No</span>
+        </label>
+        <input class="form-control" type="text" ng-model="vm.info" name="info">
+        <label class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <span>Apartment No</span>
+        </label>
+        <input class="form-control" type="text" ng-model="vm.info" name="info">
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <span class="label label-warning" ng-show="vm.frm.email.$error.required && vm.frm.$submitted">
+            Above fields must be filled
+          </span>
+        </div>
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Employer Name</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.employerName" name="employerName"
+                 placeholder="employerName " required>
+        </div>
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Company Address</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.companyAddress" name="companyAddress"
+                 placeholder="Company Address " required>
+        </div>
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Annual Income</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.income" name="income"
+                 placeholder="Income" required>
+        </div>
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Current Address</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.currentAddress" name="currentAddress"
+                 placeholder="Current Address" required>
+        </div>
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>CurrentAddressStartDate</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.startDate" name="startDate"
+                 placeholder="" required>
+        </div>
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>CurrentAddressEndDate</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.endDate" name="endDate"
+                 placeholder="" required>
+        </div>
+
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Previous Address</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.previousAddress" name="previousAddress"
+                 placeholder="Previous Address" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+  </div>
+  </form>
+
+</div>
+</div>
+<div ng-show="vm.success">
+  You Application has been submitted
+</div>
+
+

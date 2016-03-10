@@ -20,6 +20,10 @@
       return baseDataService.get("admin/apartment/view", queryStr);
     };
 
+    this.createApartment = function (data) {
+      return baseDataService.post("admin/apartment/create", data);
+    };
+
     this.removeApartment = function (aptId) {
       var data = {
         apartmentId: aptId
@@ -44,6 +48,24 @@
 
     this.getIssues = function () {
       return baseDataService.get("admin/issues/list");
+    };
+
+    this.getResidentList = function () {
+      return baseDataService.get("admin/resident/list");
+    };
+
+    this.getAdminResident = function (residentId) {
+      var queryStr = "";
+      queryStr += "?residentId=" + residentId;
+      return baseDataService.get("admin/resident/view", queryStr);
+    };
+
+    this.getStaffList = function () {
+      return baseDataService.get("admin/staff/list");
+    };
+
+    this.updateIssue = function (data) {
+      return baseDataService.post("admin/issue/save", data);
     };
 
   }

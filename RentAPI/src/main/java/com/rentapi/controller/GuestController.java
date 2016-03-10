@@ -1,10 +1,13 @@
 package com.rentapi.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import com.rentapi.model.Address;
 import com.rentapi.model.ApartmentInfo;
 import com.rentapi.model.ApartmentInfoBase;
+import com.rentapi.model.Appointment;
 import com.rentapi.model.ContactInfo;
+import com.rentapi.model.ResidentApplication;
 import com.rentapi.model.SearchQuery;
 import com.rentapi.model.SearchResultItem;
 import com.rentapi.service.GuestService;
@@ -87,9 +93,11 @@ public class GuestController {
 	
 	
 	@RequestMapping(value = "/schedule", method = RequestMethod.POST, consumes = "application/json")
-	public ModelAndView schedule() {
+	public ModelAndView schedule(@RequestBody Appointment data) {
 
 		LOGGER.info("schedule");
+		
+		guestService.ScheduleAppointment(data);
 
 		return new ModelAndView(jsonView, "data", true);
 	}
@@ -111,12 +119,36 @@ public class GuestController {
 	}
 
 	@RequestMapping(value = "/appointment/times", method = RequestMethod.GET)
-	public ModelAndView getAppointmentTimes(@RequestParam(value = "requestDate", required = false) @DateTimeFormat(iso=ISO.DATE_TIME) LocalDate requestDate) {		
+	public ModelAndView getAppointmentTimes(@RequestParam(value = "requestDate", required = false) @DateTimeFormat(iso=ISO.DATE) LocalDate requestDate) {		
 		//LocalDate localRequestDate = new LocalDate(requestDate.getYear(), requestDate.getMonth(), requestDate.getDay());		
 		List<DateTime> availableDateTimes = guestService.GetAppointmentTimes(requestDate);
 		
-		return new ModelAndView(jsonView, "data", availableDateTimes);
+		List<String> times = new ArrayList<String>();
+		DateTimeFormatter isoFormat = ISODateTimeFormat.dateTime();
+		
+		for(DateTime time : availableDateTimes){
+			times.add(time.toString(isoFormat));
+		}
+		
+		return new ModelAndView(jsonView, "data", times);
 	}
+	
+	@RequestMapping(value = "/residentApplication", method = RequestMethod.POST, consumes = "application/json")
+	public ModelAndView application(@RequestBody ResidentApplication residentApplication) {
+
+		LOGGER.info("residentApplication");
+
+		try {
+			guestService.saveOrUpdate(residentApplication);
+			return new ModelAndView(jsonView, "data", true);
+
+		} catch (Exception ex) {
+			LOGGER.error(ex.toString());
+		}
+
+		return new ModelAndView(jsonView, "data", false);
+	}
+
 	
 
 }

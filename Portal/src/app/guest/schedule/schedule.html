@@ -1,0 +1,90 @@
+<h2>Guest Schedule</h2>
+
+<div class="row">
+  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8 col-lg-offset-1 col-md-offset-1 col-sm-offset-2 col-xs-offset-2">
+
+    <div ng-show="vm.success">
+      Appointment scheduled.
+    </div>
+
+    <form name="vm.frm" ng-submit="vm.frm.$valid && vm.schedule()"
+          class="form-horizontal" novalidate ng-hide="vm.success">
+
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Name</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="text" ng-model="vm.name" name="name"
+                 placeholder="Your Name" required>
+          <span class="label label-warning" ng-show="vm.frm.name.$error.required && vm.frm.$submitted">
+            Please enter your name
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Phone</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="tel" ng-model="vm.phone" name="phone"
+                 placeholder="Phone number" required>
+          <span class="label label-warning" ng-show="vm.frm.phone.$error.required && vm.frm.$submitted">
+            Please enter phone
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>email</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="email" ng-model="vm.email" name="email"
+                 placeholder="Email address" required>
+          <span class="label label-warning" ng-show="vm.frm.email.$error.required && vm.frm.$submitted">
+            Please enter email
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-3 col-md-3 col-sm-3 col-xs-4">
+          <span>Appointment Date</span>
+        </label>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <input class="form-control" type="date" ng-model="vm.appointmentDate" name="appointmentDate" required>
+
+          <span class="label label-warning" ng-show="vm.frm.appointmentDate.$error.required && vm.frm.$submitted">
+            Please enter appointment date
+          </span>
+        </div>
+      </div>
+
+      <div ng-show="vm.availableTimes">
+        <ul class="list-unstyled row">
+          <li ng-repeat="t in vm.availableTimes" class="r-col-3">
+            <input type="radio" ng-model="vm.selectedTime" ng-value="t"/>
+            {{t | date: 'shortTime'}}
+          </li>
+        </ul>
+      </div>
+
+      <div class="form-group">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4"></div>
+        <div class="col-lg-6 col-md-6 col-sm-9 col-xs-8">
+          <button class="btn btn-primary" type="button" ng-click="vm.getTimes()" ng-disabled="!vm.appointmentDate">Get
+            Times
+          </button>
+          <button class="btn btn-primary" type="submit" ng-disabled="!vm.selectedTime || !vm.frm.$valid">
+            Book Appointment
+          </button>
+        </div>
+      </div>
+
+
+    </form>
+
+
+  </div>
+</div>
+
+

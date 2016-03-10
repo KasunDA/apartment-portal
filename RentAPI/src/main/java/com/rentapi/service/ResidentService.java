@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.rentapi.data.DataRepository;
+import com.rentapi.model.Address;
 import com.rentapi.model.Issue;
+import com.rentapi.model.Maintenance;
 import com.rentapi.model.Referral;
 import com.rentapi.model.ResidentIssue;
 
@@ -37,9 +39,14 @@ public class ResidentService {
 	}
 
 	public Integer CreateReferral(Referral referral) {
+		Integer addressId = repository.SaveAddress(referral.getAddress());		
+		referral.getAddress().setAddressID(addressId);		
 		return repository.CreateReferral(referral);
 	}
 	
-	
-
+//	public Integer CreateMaintenance(Maintenance maintenance) {
+//		Integer addressId = repository.SaveAddress(maintenance.getAddress());		
+//		maintenance.getAddress().setAddressID(addressId);		
+//		return repository.CreateMaintenance(maintenance);
+//	}
 }

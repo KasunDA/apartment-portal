@@ -1,0 +1,34 @@
+<div class="row">
+  <a ui-sref="resident">
+    <span class="glyphicon glyphicon-home"></span>
+    <span>Resident Services</span>
+  </a>
+</div>
+
+<br>
+
+<button class="btn btn-primary" ui-sref="referral">
+  <span>Refer a friend</span>
+</button>
+
+<h2>Referrals</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Guest</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Address</th>
+    <th>Approved By</th>
+  </tr>
+  </thead>
+  <tr ng-repeat="r in vm.referrals">
+    <td>{{r.guestName}}</td>
+    <td>{{r.emailAddress}}</td>
+    <td>{{r.phoneNumber}}</td>
+    <td>
+      {{r.address.address1}} {{r.address.address2}} {{r.address.city}} {{r.address.state}} {{r.address.zip}}
+    </td>
+    <td>{{r.approvedBy}}</td>
+  </tr>
+</table>

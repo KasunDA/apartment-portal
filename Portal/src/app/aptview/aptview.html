@@ -42,10 +42,20 @@
             <td>Sft</td>
             <td>{{vm.apt.sqft}}</td>
           </tr>
+          <tr>
+            <td>Type</td>
+            <td>{{vm.apt.propertyTypeName}}</td>
+          </tr>
           </tbody>
         </table>
       </div>
     </div>
+  </div>
+
+  <div>
+    <img class="img-responsive" src="../../assets/images/apartments/studio.jpg" ng-show="vm.apt.noOfBedrooms === 0"/>
+    <img class="img-responsive" src="../../assets/images/apartments/1bhk.png" ng-show="vm.apt.noOfBedrooms === 1"/>
+    <img class="img-responsive" src="../../assets/images/apartments/2bhk.png" ng-show="vm.apt.noOfBedrooms === 2"/>
   </div>
 
 

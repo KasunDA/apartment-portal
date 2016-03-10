@@ -39,11 +39,11 @@
         securityCode: vm.securityCode,
         amount: vm.amount,
         billingAddress: {
-          billAddress1: vm.address1,
-          billAddress2: vm.address2,
-          billCity: vm.city,
-          billState: vm.state,
-          billZipCode: vm.zipCode
+          address1: vm.address1,
+          address2: vm.address2,
+          city: vm.city,
+          state: vm.state,
+          zip: vm.zip
         }
       };
 

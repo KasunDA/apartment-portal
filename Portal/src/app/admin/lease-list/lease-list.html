@@ -1,25 +1,29 @@
 <h2>Leases</h2>
-
+<div class="row">
+  <a class="btn btn-link" ui-sref="admin-home">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    <span>back</span>
+  </a>
 <div class="table">
   <table class="table table-condensed">
     <thead>
     <tr>
+      <th>Resident</th>
       <th>Start Date</th>
       <th>End Date</th>
       <th>Create Date</th>
-      <th>Resident</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="a in vm.leaselist">
-      <td>{{a.leaseStartDate}}</td>
-      <td>{{a.leaseEndDate}}</td>
-      <td>{{a.leaseCreateDate}}</td>
       <td>
         <a ui-sref="admin-resident({residentId: a.residentId})">
           {{a.residentFirstName}} {{a.residentLastName}}
         </a>
       </td>
+      <td>{{a.leaseStartDate | date: 'MM/dd/yyyy'}}</td>
+      <td>{{a.leaseEndDate | date: 'MM/dd/yyyy'}}</td>
+      <td>{{a.leaseCreateDate | date: 'MM/dd/yyyy'}}</td>
     </tr>
     </tbody>
   </table>
