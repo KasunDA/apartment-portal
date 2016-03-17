@@ -70,6 +70,10 @@
       return baseDataService.post("resident/referral/create", data);
     };
 
+    this.createAccount = function (data) {
+      return baseDataService.post("login/create/account", data);
+    };
+
   }
 
 })();

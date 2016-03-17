@@ -29,6 +29,10 @@
             $localStorage.global_auth = true;
 
 
+            $rootScope.global_role = $localStorage.global_role;
+            $rootScope.global_auth = $localStorage.global_auth;
+
+
             if ($localStorage.redirectState) {
               $state.go($localStorage.redirectState, $localStorage.redirectStateParams);
               delete $localStorage.redirectState;

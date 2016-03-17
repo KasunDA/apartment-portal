@@ -26,7 +26,7 @@ public class Issue {
 		this.description = description;
 	}
 	
-	public Integer getMaintanenceID() {
+	public Integer getMaintenanceID() {
 		return maintenanceID;
 	}
 	public void setMaintenanceID(Integer maintenanceID) {

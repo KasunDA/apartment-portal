@@ -2,7 +2,9 @@
 
 <div>
 
-  <div>
+  <form name="vm.frm" ng-submit="vm.frm.$valid && vm.register()" novalidate>
+
+    <div>
     <h3>Create an Account</h3>
     <section>
       <p>Please fill out your information below to create your account.</p>
@@ -19,28 +21,36 @@
 
               <div class="form-group">
                 <label>Username</label>
-                <input type="text" ng-model="vm.Username" class="form-control"
-                       placeholder="Username"/>
+                <input type="text" ng-model="vm.username" class="form-control"
+                       placeholder="Username" name="username" required/>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.username.$error.required">User name is required</span>
               </div>
               <div class="form-group">
                 <label>Password</label>
                 <input type="Password" ng-model="vm.password" class="form-control"
-                       placeholder="Password"/>
+                       placeholder="Password" name="password" required ng-minlength="6"/>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.password.$error.required">
+                  Password is required</span>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.password.$error.minlength">
+                  Password length is minimum 6 characters</span>
+
               </div>
               <div class="form-group">
                 <label>Confirm Password</label>
                 <input type="Password" ng-model="vm.confirmpassword" class="form-control"
-                       placeholder="Confirm Password"/>
+                       placeholder="Confirm Password" name="confirmpassword" required ng-minlength="6"
+                       compare-to="vm.password"/>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.confirmpassword.$error.required">
+                  Password is required</span>
+                <span class="label label-warning"
+                      ng-show="vm.frm.$submitted && vm.frm.confirmpassword.$error.compareTo">
+                  Password do not match</span>
               </div>
               <div class="form-group">
-                <label>Security Question</label>
-                <input type="text" ng-model="vm.securityquestion" class="form-control"
-                       placeholder=""/>
-              </div>
-              <div class="form-group">
-                <label>Security Answer</label>
+                <label>Please enter the city you were born?</label>
                 <input type="text" ng-model="vm.securityanswer" class="form-control"
-                       placeholder=""/>
+                       placeholder="" name="securityanswer" required/>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.securityanswer.$error.required">Security answer is required</span>
               </div>
 
 
@@ -61,16 +71,20 @@
               <div class="form-group">
                 <label>First Name</label>
                 <input type="text" ng-model="vm.firstname" class="form-control"
-                       placeholder="First Name"/>
+                       placeholder="First Name" name="firstname" required/>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.firstname.$error.required">First name is required</span>
               </div>
               <div class="form-group">
                 <label>Last Name</label>
                 <input type="text" ng-model="vm.lastname" class="form-control"
-                       placeholder="Last Name"/>
+                       placeholder="Last Name" name="lastname" required/>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.lastname.$error.required">Last name is required</span>
               </div>
               <div class="form-group">
-                <label>Contact</label>
-                <input type="text" ng-model="vm.contact" class="form-control" placeholder="Contact"/>
+                <label>Email</label>
+                <input type="text" ng-model="vm.email" class="form-control" placeholder="Contact" name="email"
+                       required/>
+                <span class="label label-warning" ng-show="vm.frm.$submitted && vm.frm.email.$error.required">email is required</span>
               </div>
 
               <div class="form-group">
@@ -90,4 +104,6 @@
     </section>
   </div>
 
+
+  </form>
 </div>

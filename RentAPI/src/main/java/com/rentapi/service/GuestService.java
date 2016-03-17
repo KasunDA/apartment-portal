@@ -8,6 +8,8 @@ import java.util.Properties;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +48,7 @@ public class GuestService {
 	}
 
 	public List<DateTime> GetAppointmentTimes(LocalDate requestDate) {
-		List<Date> times = repository.GetAppointmentTimes(requestDate);
+		List<String> times = repository.GetAppointmentTimes(requestDate);
 		List<DateTime> availableDateTimes = new ArrayList<DateTime>();
 
 		DateTime startDateTime = new DateTime(requestDate.getYear(), requestDate.getMonthOfYear(),
@@ -56,8 +58,17 @@ public class GuestService {
 			// Search booked appointments
 			Boolean appointmentFound = false;
 			for (int j = 0; j < times.size(); j++) {
-				if (times.get(j).getHours() == startDateTime.getHourOfDay()
-						&& times.get(j).getMinutes() == startDateTime.getMinuteOfHour()) {
+
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-M-yyyy HH:mm:ss");
+				DateTime dt = times.get(j) == null ? null : formatter.parseDateTime(times.get(j));
+				
+				System.out.println("times.get(j)");
+				System.out.println(times.get(j));
+				System.out.println("startDateTime");				
+				System.out.println(startDateTime);
+				
+				if (dt.getHourOfDay() == startDateTime.getHourOfDay()
+						&& dt.getMinuteOfHour() == startDateTime.getMinuteOfHour()) {
 					appointmentFound = true;
 					break;
 				}

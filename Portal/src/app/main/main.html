@@ -1,12 +1,22 @@
+<h2>Welcome to Azure Apartments</h2>
+<br>
 <div class="row">
-  <div class="r-col-12">
+
+  <div class="r-col-9">
     <div class="main-img-top">
-      <div>
-        <button class="btn btn-primary btn-check" ui-sref="apt-search">
-          Check Availability
-        </button>
-      </div>
     </div>
+  </div>
+  <div class="r-col-3">
+
+
+    <div>
+      <h4>{{vm.location.name}}</h4>
+      <p>{{vm.location.address1}}</p>
+      <p>{{vm.location.address2}}</p>
+      <p>{{vm.location.city}} {{vm.location.state}} {{vm.location.zip}}</p>
+      </div>
+
+
   </div>
 </div>
 
@@ -30,4 +40,5 @@
       <li><a ui-sref="referral-list">Manage referrals</a></li>
     </ul>
   </div>
+
 </div>

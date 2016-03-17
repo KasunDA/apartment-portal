@@ -1,0 +1,36 @@
+<div class="row">
+  <a class="btn btn-link" ui-sref="admin-home">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    <span>back</span>
+  </a>
+</div>
+<h2>Appointments</h2>
+
+
+<div class="row">
+  <div class="r-col-3">
+    <input class="form-control" type="date" ng-model="vm.requestDate" ng-change="vm.changeRequestDate()">
+  </div>
+
+</div>
+
+<div class="table">
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="a in vm.appointments">
+      <td>{{a.name}}</td>
+      <td>{{a.email}}</td>
+      <td>{{a.phone}}</td>
+      <td>{{a.appointmentDate | date:'short'}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

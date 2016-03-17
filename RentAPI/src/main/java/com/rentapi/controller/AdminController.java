@@ -1,7 +1,14 @@
 package com.rentapi.controller;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import com.rentapi.model.Appointment;
 import com.rentapi.model.Apt;
+import com.rentapi.model.AptInfo;
+import com.rentapi.model.Guest;
 import com.rentapi.model.Issue;
 import com.rentapi.model.Referral;
 import com.rentapi.model.ReferralBase;
@@ -95,7 +105,7 @@ public class AdminController {
 		return new ModelAndView(jsonView, "data", referrallist);
 	}
 
-	@RequestMapping(value = "/issues/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/issues/create", method = RequestMethod.POST)
 	public ModelAndView createAdminIssue(@RequestBody Issue issue) {
 		int issueId = adminService.CreateIssue(userId, issue);
 		return new ModelAndView(jsonView, "data", issueId);
@@ -107,6 +117,13 @@ public class AdminController {
 		return new ModelAndView(jsonView, "data", residentList);
 	}
 
+
+	@RequestMapping(value = "/resident/lease/create", method = RequestMethod.POST)
+	public ModelAndView setupResidentLease(@RequestBody Resident resident) {
+		resident.setUserId(userId);
+		adminService.setupResidentLease(resident);
+		return new ModelAndView(jsonView, "data", true);
+	}
 
 	@RequestMapping(value = "/resident/view", method = RequestMethod.GET)
 	public ModelAndView getAdminResident(@RequestParam(value = "residentId", required = true) int residentId) {
@@ -125,4 +142,23 @@ public class AdminController {
 		Boolean result = adminService.updateIssue(issue);
 		return new ModelAndView(jsonView, "data", result);
 	}
+	
+	@RequestMapping(value = "/guests", method = RequestMethod.GET)
+	public ModelAndView getAdminGuests(){
+		List<Guest> staffList = adminService.getAdminGuests();
+		return new ModelAndView(jsonView, "data", staffList);		
+	}
+	
+	@RequestMapping(value = "/apartment/available/list", method = RequestMethod.GET)
+	public ModelAndView getAdminAvailablePropertyList(){
+		List<AptInfo> list = adminService.getAdminAvailablePropertyList();
+		return new ModelAndView(jsonView, "data", list);		
+	}
+	
+	@RequestMapping(value = "/appointment/list", method = RequestMethod.GET)
+	public ModelAndView getAdminAppointments(String requestDate) {
+		List<Appointment> list = adminService.getAdminAppointments(requestDate);
+		return new ModelAndView(jsonView, "data", list);
+	}
+	
 }

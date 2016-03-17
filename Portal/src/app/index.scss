@@ -146,6 +146,11 @@ form.ng-submitted {
   @include r-col(6);
 }
 
+.r-col-9 {
+  @include r-col(9);
+}
+
+
 .r-col-12 {
   @include r-col(12);
 }

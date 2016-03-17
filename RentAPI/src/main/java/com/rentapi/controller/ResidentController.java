@@ -16,6 +16,7 @@ import org.springframework.web.servlet.View;
 import com.rentapi.model.Issue;
 import com.rentapi.model.Maintenance;
 import com.rentapi.model.Referral;
+import com.rentapi.model.Resident;
 import com.rentapi.model.ResidentIssue;
 import com.rentapi.service.ResidentService;
 
@@ -53,6 +54,7 @@ public class ResidentController {
 
 	@RequestMapping(value = "/issue/create", method = RequestMethod.POST)
 	public ModelAndView CreateIssue(@RequestBody ResidentIssue issue) {
+		issue.setResidentID(residentId);
 		Integer issueId = residentService.CreateIssue(issue);
 		return new ModelAndView(jsonView, "data", issueId);
 	}
@@ -77,4 +79,5 @@ public class ResidentController {
 //		return new ModelAndView(jsonView, "data", maintenanceId);
 //	}
 
+	
 }

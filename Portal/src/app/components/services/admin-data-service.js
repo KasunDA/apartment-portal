@@ -68,6 +68,26 @@
       return baseDataService.post("admin/issue/save", data);
     };
 
+    this.getGuests = function () {
+      return baseDataService.get("admin/guests");
+    };
+
+    this.getAdminAvailablePropertyList = function () {
+      return baseDataService.get("admin/apartment/available/list");
+    };
+
+    this.setupResidentLease = function (data) {
+      return baseDataService.post("admin/resident/lease/create", data);
+    };
+
+    this.getAdminAppointments = function (requestDate) {
+      requestDate = requestDate || Date.today();
+      var requestDateStr = requestDate.toString("yyyy-MM-dd");
+      var queryStr = "";
+      queryStr += "?requestDate=" + requestDateStr;
+      return baseDataService.get("admin/appointment/list", queryStr);
+    };
+
   }
 
 })();

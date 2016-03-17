@@ -2,13 +2,19 @@ package com.rentapi.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +28,15 @@ import com.rentapi.model.Address;
 import com.rentapi.model.ApartmentInfo;
 import com.rentapi.model.Appointment;
 import com.rentapi.model.Apt;
+import com.rentapi.model.AptInfo;
 import com.rentapi.model.ContactInfo;
 import com.rentapi.model.CreditCardPaymentInfo;
+import com.rentapi.model.Guest;
 import com.rentapi.model.Issue;
 import com.rentapi.model.Lease;
 import com.rentapi.model.LoginResponse;
 import com.rentapi.model.Referral;
+import com.rentapi.model.Register;
 import com.rentapi.model.ResidentApplication;
 import com.rentapi.model.ResidentIssue;
 import com.rentapi.model.SearchQuery;
@@ -170,7 +179,7 @@ public class DataRepository {
 			referral.setResidentId((Integer) (row.get("ResidentID")));
 			referral.setApprovedDate((Date) (row.get("ApprovedDate")));
 			referral.setApprovedBy((Integer) (row.get("ApprovedBy")));
-			referral.setApprovedByName((String) (row.get("ApprovedByName")));
+			referral.setApprovedByName((String) (row.get("FirstName")) + " " + (String) (row.get("LastName")));
 			referral.setPhoneNumber((String) row.get("PhoneNumber"));
 
 			Address address = new Address();
@@ -420,7 +429,7 @@ public class DataRepository {
 		return paymentTransactionID;
 	}
 
-	public List<Date> GetAppointmentTimes(LocalDate requestDate) {
+	public List<String> GetAppointmentTimes(LocalDate requestDate) {
 		String sql = "call `getAppointmentTimes`(?)";
 		Date d = null;
 		if (requestDate != null) {
@@ -428,13 +437,18 @@ public class DataRepository {
 			LOGGER.info(d.toString());
 		}
 
-		List<Date> times = jdbcTemplate.query(sql, new Object[] { d }, new RowMapper<Date>() {
+		List<String> times = jdbcTemplate.query(sql, new Object[] { d }, new RowMapper<String>() {
 
 			@Override
-			public Date mapRow(ResultSet rs, int rowNum) throws SQLException {
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-				String.format("%s", rs.getInt("AppointmentDateStart"));
-				return rs.getDate("AppointmentDateStart");
+				// System.out.println(String.format("%s",
+				// rs.getInt("AppointmentDateStart")));
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy HH:mm:ss");
+
+				Timestamp d = rs.getTimestamp("AppointmentDateStart");
+				System.out.println(d.toString());
+				return (d != null) ? sdf.format(d) : null;
 			}
 
 		});
@@ -530,6 +544,12 @@ public class DataRepository {
 		return rows;
 	}
 
+	public void setupResidentLease(Resident resident) {
+		String sql = "call createAdminLease(?,?,?,?)";
+		jdbcTemplate.update(sql, resident.getPropertyID(), resident.getResidentID(), resident.getLeaseStartDate(),
+				resident.getLeaseEndDate());
+	}
+
 	public Resident GetAdminResident(int residentId) {
 
 		String sql = "call getAdminResident(?);";
@@ -586,6 +606,86 @@ public class DataRepository {
 				issue.getMaintenanceStatusCodeID() });
 		return true;
 
+	}
+
+	public void createAccount(Register account) {
+		String sql = "call `createAccount`(?,?,?,?,?)";
+		jdbcTemplate.update(sql, new Object[] { account.getFirstName(), account.getLastName(), account.getUsername(),
+				account.getPassword(), account.getEmail() });
+	}
+
+	public List<Guest> getAdminGuests() {
+
+		String sql = "call getAdminGuests();";
+
+		List<Guest> rows = jdbcTemplate.query(sql, new RowMapper<Guest>() {
+
+			@Override
+			public Guest mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Guest r = new Guest();
+
+				r.setGuestName(rs.getString("FirstName") + " " + rs.getString("LastName"));
+				r.setGuestId(rs.getInt("ResidentID"));
+
+				return r;
+			}
+		});
+
+		return rows;
+
+	}
+
+	public List<AptInfo> getAdminAvailablePropertyList() {
+
+		String sql = "call getAdminAvailablePropertyList();";
+
+		List<AptInfo> rows = jdbcTemplate.query(sql, new RowMapper<AptInfo>() {
+
+			@Override
+			public AptInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+				AptInfo r = new AptInfo();
+
+				r.setDescription(rs.getString("AptNo") + " " + rs.getString("BuildingNo"));
+				r.setApartmentId(rs.getInt("PropertyID"));
+
+				return r;
+			}
+		});
+
+		return rows;
+	}
+
+	public List<Appointment> getAdminAppointments(String requestDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try {
+
+			if (requestDate != null)
+				date = sdf.parse(requestDate);
+		} catch (ParseException e) {
+		}
+		
+		if (date == null)
+			date = new Date();
+
+		String sql = "call getAdminAppointments(?);";
+
+		List<Appointment> rows = jdbcTemplate.query(sql, new Object[] { date }, new RowMapper<Appointment>() {
+
+			@Override
+			public Appointment mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Appointment r = new Appointment();
+
+				r.setName(rs.getString("Name"));
+				r.setPhone(rs.getString("Phone"));
+				r.setEmail(rs.getString("EmailAddress"));
+				r.setAppointmentDate(rs.getTimestamp("AppointmentDateStart"));
+
+				return r;
+			}
+		});
+
+		return rows;
 	}
 
 }

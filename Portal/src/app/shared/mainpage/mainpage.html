@@ -1,0 +1,7 @@
+<h2 style="position: relative;">
+  <span>
+  Apartment Portal</span>
+  <select ng-model="vm.location" class="form-control" style="width: 200px; float: right; margin-bottom: 5px;"
+          ng-options="x.title for x in vm.locations"
+          ng-change="vm.onLocationChange(vm.location)"></select>
+</h2>

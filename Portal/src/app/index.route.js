@@ -13,9 +13,15 @@
     $stateProvider
       .state('home', {
         url: '/',
+        templateUrl: 'app/shared/mainpage/mainpage.html',
+        controller: 'MainPageController',
+        controllerAs: 'vm'
+      })
+      .state('location-home', {
+        url: '/location/:locationId',
         templateUrl: 'app/main/main.html',
         controller: 'MainController',
-        controllerAs: 'main'
+        controllerAs: 'vm'
       })
       .state('amenities', {
         url: '/amenities',
@@ -145,6 +151,14 @@
         url: '/admin/guest/view/:guestId',
         templateUrl: 'app/admin/guest/guest.html',
         controller: 'AdminGuestController',
+        controllerAs: 'vm',
+        authenticate: true,
+        role: "ADMIN"
+      })
+      .state('admin-appointments', {
+        url: '/admin/appointments/list',
+        templateUrl: 'app/admin/appointments/appointments.html',
+        controller: 'AppointmentsController',
         controllerAs: 'vm',
         authenticate: true,
         role: "ADMIN"
